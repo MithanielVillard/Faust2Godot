@@ -1,0 +1,6 @@
+.cache/
+cmake-build/
+project/.godot
+
+compile_commands.json
+.DS_Store
