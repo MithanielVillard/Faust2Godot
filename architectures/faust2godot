@@ -96,7 +96,7 @@ for f in $FILES; do
     # compile c++ to binary
     echo "compile c++ to binary"
     (
-        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "${LIB_PREFIX}faust${LIB_EXTENSION}" ${LIBADD}
+        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "${LIB_PREFIX}faustdsp${LIB_EXTENSION}" ${LIBADD}
     ) > /dev/null || exit
 
     # remove temporary files
