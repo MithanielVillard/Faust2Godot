@@ -35,6 +35,7 @@ void AudioEffectFaust::_bind_methods() {}
 bool AudioEffectFaust::_set(const StringName &p_path, const Variant &p_value)
 {
     if (p_path == String("resource_name")) return false;
+    if (p_path == String("script")) return false;
 
     if (m_dspUI)
     {
