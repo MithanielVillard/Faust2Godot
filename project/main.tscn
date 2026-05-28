@@ -1,9 +1,70 @@
 [gd_scene format=3 uid="uid://dwuoixav1p6mh"]
 
 [ext_resource type="AudioStream" uid="uid://dh8mrkflktmu3" path="res://Test.wav" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://lrpvi8q3r8f4" path="res://FaustParameters.gd" id="2_0xm2m"]
 
-[node name="Node3D" type="Node3D" unique_id=328652537]
+[node name="Main" type="Node3D" unique_id=328652537]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1679762574]
 stream = ExtResource("1_ig7tw")
 bus = &"Faust"
+
+[node name="Control" type="Control" parent="." unique_id=1559070722]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Control" unique_id=869551273]
+layout_mode = 1
+offset_right = 378.0
+offset_bottom = 193.0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+script = ExtResource("2_0xm2m")
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer" unique_id=1158785936]
+layout_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/MarginContainer" unique_id=1678267944]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="BoxContainer" type="BoxContainer" parent="Control/MarginContainer/MarginContainer" unique_id=1262005647]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+vertical = true
+
+[node name="Label" type="Label" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=1934735868]
+layout_mode = 2
+text = "Feedback"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=1143640559]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=94682033]
+layout_mode = 2
+text = "Milliseconds"
+horizontal_alignment = 1
+
+[node name="HSlider2" type="HSlider" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=132921209]
+layout_mode = 2
+max_value = 1000.0
+
+[node name="Button" type="Button" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=1173452532]
+layout_mode = 2
+text = "Play"
+
+[connection signal="value_changed" from="Control/MarginContainer/MarginContainer/BoxContainer/HSlider" to="Control/MarginContainer" method="change_feedback"]
+[connection signal="value_changed" from="Control/MarginContainer/MarginContainer/BoxContainer/HSlider2" to="Control/MarginContainer" method="change_milliseconds"]
+[connection signal="pressed" from="Control/MarginContainer/MarginContainer/BoxContainer/Button" to="Control/MarginContainer" method="play"]
