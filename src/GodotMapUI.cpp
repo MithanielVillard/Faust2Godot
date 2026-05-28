@@ -1,22 +1,54 @@
 #include "GodotMapUI.h"
 #include "AudioEffectFaust.h"
 
-#include <godot_cpp/classes/global_constants.hpp>
-#include <godot_cpp/core/property_info.hpp>
-#include <godot_cpp/variant/variant.hpp>
 #include <format>
 
 using namespace godot;
 
+
+#define REGISTER_PROPERTY(property)                                 \
+StringName striped_label(label);                                    \
+striped_label = striped_label.replace_char('/', '|');               \
+                                                                    \
+for (PropertyInfo& info : m_pAudioEffect->m_propertyList)           \
+    if (info.name == striped_label) return;                         \
+                                                                    \
+addZoneLabel(String(striped_label).utf8().get_data(), zone);        \
+m_pAudioEffect->AddProperty(property);                              \
+
+
+
 GodotMapUI::GodotMapUI(AudioEffectFaust* effectRef) : m_pAudioEffect(effectRef) {}
 
-void GodotMapUI::addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT fmin, FAUSTFLOAT fmax, FAUSTFLOAT step)
+void GodotMapUI::addButton(const char* label, float* zone)
 {
-    m_pAudioEffect->AddProperty(PropertyInfo(
-        Variant::FLOAT,
-        label,
-        godot::PROPERTY_HINT_RANGE,
-        std::format("{},{},{}", fmin, fmax, step).c_str()));
+    REGISTER_PROPERTY(
+        PropertyInfo(
+        Variant::BOOL,
+        striped_label)
+    );
+}
 
-    m_pAudioEffect->_set(label, init);
+void GodotMapUI::addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step)
+{
+    REGISTER_PROPERTY(
+        PropertyInfo(
+        Variant::FLOAT,
+        striped_label,
+        PROPERTY_HINT_RANGE,
+        std::format("{},{},{}", min, max, step).c_str())
+    );
+    m_pAudioEffect->_set(striped_label, init);  //Set initial value of parameter
+}
+
+void GodotMapUI::addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step)
+{
+    REGISTER_PROPERTY(
+         PropertyInfo(
+         Variant::FLOAT,
+         striped_label,
+         PROPERTY_HINT_RANGE,
+         std::format("{},{},{}", min, max, step).c_str())
+     );
+    m_pAudioEffect->_set(striped_label, init);  //Set initial value of parameter
 }

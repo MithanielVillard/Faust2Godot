@@ -7,9 +7,10 @@ endif()
 
 set(LIBNAME "faust2godot") # "The name of the library"
 set(GODOT_PROJECT_DIR "project" CACHE STRING "The directory of a Godot project folder")
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20) #std c++ 20
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #std c++ 20
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 
 option(BUILD_TESTS "Build test programs" OFF)
 
@@ -67,6 +68,7 @@ target_sources(${LIBNAME}
     src/faust2godot.cpp
     src/AudioEffectFaust.cpp
     src/GodotMapUI.cpp
+    src/GodotDsp.cpp
 )
 
 target_link_libraries(${LIBNAME} PRIVATE godot-cpp)

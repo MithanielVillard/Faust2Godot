@@ -1,13 +1,14 @@
 #pragma once
-#include <faust/dsp/dsp.h>
-
 #include "defines.h"
+#include "DynLibrary.h"
+
+#include <faust/dsp/dsp.h>
 
 class GodotDsp
 {
 public:
-    GodotDsp() = default;
-    ~GodotDsp() = default;
+    GodotDsp();
+    ~GodotDsp();
 
     int32 GetNumInputs()  const { return m_dspInstance->getNumInputs();  }
     int32 GetNumOutputs() const { return m_dspInstance->getNumOutputs(); }
@@ -15,8 +16,12 @@ public:
 
     void buildUserInterface(UI* uiInterface) { m_dspInstance->buildUserInterface(uiInterface); }
 
-    void Compute(int32 count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) { m_dspInstance->compute(count, inputs, outputs); };
+    void Compute(int32 count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs)
+    {
+        m_dspInstance->compute(count, inputs, outputs);
+    }
 
 private:
-    uptr<dsp> m_dspInstance;
+    dsp* m_dspInstance;
+    DynLibrary m_dspLib;
 };

@@ -1,6 +1,5 @@
 #pragma once
 #include <faust/gui/MapUI.h>
-#include <godot_cpp/classes/ref.hpp>
 
 namespace godot { class AudioEffectFaust; }
 
@@ -9,9 +8,11 @@ class GodotMapUI : public MapUI
 public:
 
     GodotMapUI(godot::AudioEffectFaust* effectRef);
-    ~GodotMapUI() = default;
+    ~GodotMapUI() override = default;
 
-    void addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT fmin, FAUSTFLOAT fmax, FAUSTFLOAT step);
+    void addButton(const char* label, float* zone) override;
+    void addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step) override;
+    void addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step) override;
 
 private:
     godot::AudioEffectFaust* m_pAudioEffect;

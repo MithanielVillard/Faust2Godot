@@ -12,12 +12,12 @@ void InitializeFaust2GodotModule(ModuleInitializationLevel level)
 {
     if (level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        GDREGISTER_RUNTIME_CLASS(AudioEffectFaust);
-        GDREGISTER_RUNTIME_CLASS(AudioEffectFaustInstance);
     }
 
     if (level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR)
     {
+        GDREGISTER_CLASS(AudioEffectFaustInstance);
+        GDREGISTER_CLASS(AudioEffectFaust);
         // GDREGISTER_CLASS(ExtButton)
         // GDREGISTER_CLASS(RandomIntEditor);
         // GDREGISTER_CLASS(InspectorPlugin);

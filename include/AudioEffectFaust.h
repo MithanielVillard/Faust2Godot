@@ -17,9 +17,11 @@ namespace godot
 
     public:
         AudioEffectFaustInstance();
-        ~AudioEffectFaustInstance();
+        ~AudioEffectFaustInstance() override;
 
         void _process(void const* pSrcFrames, AudioFrame* pDstFrames, int32 frameCount) override;
+
+        bool _process_silence() const override;
 
     protected:
         static void _bind_methods();
@@ -28,6 +30,7 @@ namespace godot
         friend AudioEffectFaust;
 
         Ref<AudioEffectFaust> m_base;
+        uptr<GodotDsp> m_dsp;
 
         //Hardcoded 2 inputs and outputs. Seems to be a godot hard limitation
         float* m_input[2] {};
@@ -41,7 +44,7 @@ namespace godot
 
     public:
         AudioEffectFaust();
-        ~AudioEffectFaust();
+        ~AudioEffectFaust() override;
 
         Ref<AudioEffectInstance> _instantiate() override;
 
@@ -57,10 +60,8 @@ namespace godot
         friend class ::GodotMapUI;
 
     private:
-        uptr<GodotDsp> m_dsp;
-        uptr<GodotMapUI> m_dspUI;
-
         List<PropertyInfo> m_propertyList;
+        uptr<GodotMapUI> m_dspUI;
     };
 
 }

@@ -10,17 +10,14 @@ config_version=5
 
 [application]
 
-config/name="Faust2Godot"
-config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+config/name="faust2godot"
+run/main_scene="uid://dwuoixav1p6mh"
+config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
-
-[audio]
-
-buses/default_bus_layout="uid://cru886pqaxfnv"
 
 [dotnet]
 
-project/assembly_name="Faust2Godot"
+project/assembly_name="faust2godot"
 
 [physics]
 

@@ -1,4 +1,6 @@
 .cache/
+.idea/
+.zed/
 cmake-build/
 project/.godot
 
