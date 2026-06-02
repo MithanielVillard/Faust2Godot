@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cn5qwlgnaou3k"]
+
+[sub_resource type="AudioStreamFaust" id="AudioStreamFaust_udokr"]
+"Wet|Dry Mix" = 0.75
+Level = 8.0
+
+[node name="Scene" type="Node3D" unique_id=55228684]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1993172026]
+stream = SubResource("AudioStreamFaust_udokr")
