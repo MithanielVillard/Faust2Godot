@@ -14,7 +14,7 @@ CXXFLAGS+=" $MYGCCFLAGS"  # So that additional CXXFLAGS can be used
 LIBADD+=" -pthread"
 
 # The architecture file name
-ARCHFILE=$FAUSTARCH/godot.cpp
+ARCHFILE=$FAUSTARCH/godot/godot.cpp
 
 # Global variables
 OPTIONS=""
@@ -84,6 +84,13 @@ shift
 done
 
 #-------------------------------------------------------------------
+# generate godot project
+#-------------------------------------------------------------------
+
+# copy godot project template
+ cp -r $FAUSTARCH/godot/template ./"${f%}"
+
+#-------------------------------------------------------------------
 # compile the *.dsp files
 #-------------------------------------------------------------------
 
@@ -96,11 +103,8 @@ for f in $FILES; do
     # compile c++ to binary
     echo "compile c++ to binary"
     (
-        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "${LIB_PREFIX}faustdsp${LIB_EXTENSION}" ${LIBADD}
+        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "./"${f%}/bin/${LIB_PREFIX}faustdsp${LIB_EXTENSION}" ${LIBADD}
     ) > /dev/null || exit
-
-    # copy godot project template
-    # cp -r $FAUSTARCH/godot ./"${f%}"
 
     # remove temporary files
     rm -f "${f%.dsp}.cpp"

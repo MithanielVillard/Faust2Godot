@@ -9,7 +9,7 @@ using namespace godot;
 
 GodotDsp::GodotDsp()
 {
-    if (auto res = m_dspLib.Open("bin/linux/faustdsp"))
+    if (auto res = m_dspLib.Open("bin/faustdsp"))
     {
         UtilityFunctions::printerr("Error while loading the lib faust dsp dynamic library : ", res.value().c_str());
         UtilityFunctions::print("Current working directory : ", std::filesystem::current_path().string().c_str());

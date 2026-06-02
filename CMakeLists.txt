@@ -88,9 +88,9 @@ set_target_properties(${LIBNAME}
 
 set(GODOT_PROJECT_BINARY_DIR "${PROJECT_SOURCE_DIR}/${GODOT_PROJECT_DIR}/bin/${GODOTCPP_PLATFORM}")
 
-add_custom_command(TARGET ${LIBNAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${LIBNAME}>" "${GODOT_PROJECT_BINARY_DIR}/$<TARGET_FILE_NAME:${LIBNAME}>"
-)
+#add_custom_command(TARGET ${LIBNAME} POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:${LIBNAME}>" "${GODOT_PROJECT_BINARY_DIR}/$<TARGET_FILE_NAME:${LIBNAME}>"
+#)
 
 if (PROJECT_IS_TOP_LEVEL AND UNIX)
   # Create symlink to compile_commands.json for IDE to pick it up
