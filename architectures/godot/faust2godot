@@ -1,0 +1,112 @@
+#!/bin/bash -e
+
+# Define some common paths
+. faustpath
+
+# Define compilation flags
+. faustoptflags
+
+# Helper file to build the 'help' option
+. usage.sh
+
+CXXFLAGS+=" -fPIC -shared"
+CXXFLAGS+=" $MYGCCFLAGS"  # So that additional CXXFLAGS can be used
+LIBADD+=" -pthread"
+
+# The architecture file name
+ARCHFILE=$FAUSTARCH/godot.cpp
+
+# Global variables
+OPTIONS=""
+FILES=""
+UI=""
+LIB_PREFIX=""
+LIB_EXTENSION=""
+
+echoHelp()
+{
+    usage faust2godot "[Faust options] <file.dsp>"
+    echo "Compiles Faust programs to GDExtension usable in Godot game engine"
+    option "Faust options"
+    exit
+}
+
+if [ "$#" -eq 0 ]; then
+    echo 'Please, provide a Faust file to process !'
+    echo ''
+    echoHelp
+fi
+
+
+#-------------------------------------------------------------------
+# resolve lib decoration by plateforms
+#-------------------------------------------------------------------
+
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        LIB_PREFIX="lib"
+        LIB_EXTENSION=".so"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        LIB_PREFIX="lib"
+        LIB_EXTENSION=".dylib"
+elif [[ "$OSTYPE" == "msys" ]]; then
+        LIB_PREFIX=""
+        LIB_EXTENSION=".dll"
+fi
+
+
+#-------------------------------------------------------------------
+# dispatch command arguments
+#-------------------------------------------------------------------
+
+while [ $1 ]
+do
+    p=$1
+
+    if [ $p = "-help" ] || [ $p = "-h" ]; then
+        echoHelp
+    fi
+
+    if [ $p = "-fx" ]; then
+        OPTIONS="$OPTIONS $p"
+        CXXFLAGS="$CXXFLAGS -I /usr/local/include/ap_fixed -DFIXED_POINT"
+    elif [ $p = "-layout" ]; then
+        UI="-DLAYOUT_UI"
+    elif [ ${p:0:1} = "-" ]; then
+        OPTIONS="$OPTIONS $p"
+    elif [[ -f "$p" ]] && [ ${p: -4} == ".dsp" ]; then
+        FILES="$FILES $p"
+    else
+        OPTIONS="$OPTIONS $p"
+    fi
+
+shift
+
+done
+
+#-------------------------------------------------------------------
+# compile the *.dsp files
+#-------------------------------------------------------------------
+
+for f in $FILES; do
+
+    # compile the DSP to c++ using the architecture file
+    echo "compile the DSP to c++ using the architecture file"
+    faust -i -a $ARCHFILE $OPTIONS "$f" -o "${f%.dsp}.cpp"|| exit
+
+    # compile c++ to binary
+    echo "compile c++ to binary"
+    (
+        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "${LIB_PREFIX}faustdsp${LIB_EXTENSION}" ${LIBADD}
+    ) > /dev/null || exit
+
+    # copy godot project template
+    # cp -r $FAUSTARCH/godot ./"${f%}"
+
+    # remove temporary files
+    rm -f "${f%.dsp}.cpp"
+
+    # collect binary file name for FaustWorks
+    BINARIES="$BINARIES${f%.dsp};"
+done
+
+echo $BINARIES
