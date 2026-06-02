@@ -1,13 +1,13 @@
 #pragma once
 #include <faust/gui/MapUI.h>
 
-namespace godot { class AudioEffectFaust; }
+class IPropertyHandler;
 
 class GodotMapUI : public MapUI
 {
 public:
 
-    GodotMapUI(godot::AudioEffectFaust* effectRef);
+    GodotMapUI(IPropertyHandler* effectRef);
     ~GodotMapUI() override = default;
 
     void addButton(const char* label, float* zone) override;
@@ -15,5 +15,5 @@ public:
     void addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step) override;
 
 private:
-    godot::AudioEffectFaust* m_pAudioEffect;
+    IPropertyHandler* m_pAudioEffect;
 };

@@ -19,17 +19,17 @@
 
 namespace godot
 {
-    class AudioEffectFaust : public AudioEffect
-    {
-    GDCLASS(AudioEffectFaust, AudioEffect)
-
-    public:
-        AudioEffectFaust() = default;
-        ~AudioEffectFaust() = default;
-
-    protected:
-        static void _bind_methods();
-    };
+    // class AudioEffectFaust : public AudioEffect
+    // {
+    // GDCLASS(AudioEffectFaust, AudioEffect)
+    //
+    // public:
+    //     AudioEffectFaust() = default;
+    //     ~AudioEffectFaust() = default;
+    //
+    // protected:
+    //     static void _bind_methods();
+    // };
 
 
 

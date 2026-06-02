@@ -1,8 +1,11 @@
+#pragma once
 #include "defines.h"
+#include "IPropertyHandler.h"
 
 #include <godot_cpp/classes/audio_effect_instance.hpp>
 #include <godot_cpp/classes/audio_effect.hpp>
 #include <godot_cpp/core/property_info.hpp>
+
 
 class GodotDsp;
 class GodotMapUI;
@@ -38,7 +41,7 @@ namespace godot
     };
 
 
-    class AudioEffectFaust : public AudioEffect
+    class AudioEffectFaust : public AudioEffect, public IPropertyHandler
     {
     GDCLASS(AudioEffectFaust, AudioEffect)
 
@@ -48,7 +51,10 @@ namespace godot
 
         Ref<AudioEffectInstance> _instantiate() override;
 
-        void AddProperty(PropertyInfo const& property);
+        void AddProperty(PropertyInfo const& property) override;
+        void SetProperty(StringName const& name, Variant const& value) override;
+        std::optional<Variant> GetProperty(StringName const& name) override;
+        List<PropertyInfo>& GetPropertyList() override;
 
     protected:
         static void _bind_methods();
@@ -57,8 +63,6 @@ namespace godot
         void _get_property_list(List<PropertyInfo> *p_list) const;
 
        	friend class AudioEffectFaustInstance;
-        friend class ::GodotMapUI;
-
     private:
         List<PropertyInfo> m_propertyList;
         uptr<GodotMapUI> m_dspUI;
