@@ -67,6 +67,7 @@ target_sources(${LIBNAME}
     PRIVATE
     src/faust2godot.cpp
     src/AudioEffectFaust.cpp
+    src/AudioStreamFaust.cpp
     src/GodotMapUI.cpp
     src/GodotDsp.cpp
 )

@@ -1,5 +1,6 @@
 #include "faust2godot.h"
 #include "AudioEffectFaust.h"
+#include "AudioStreamFaust.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
@@ -14,6 +15,9 @@ void InitializeFaust2GodotModule(ModuleInitializationLevel level)
     {
         GDREGISTER_CLASS(AudioEffectFaustInstance);
         GDREGISTER_CLASS(AudioEffectFaust);
+
+        GDREGISTER_CLASS(AudioStreamPlaybackFaust);
+        GDREGISTER_CLASS(AudioStreamFaust);
     }
 
     if (level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR)

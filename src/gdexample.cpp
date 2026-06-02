@@ -1,6 +1,5 @@
 #include "gdexample.h"
 #include <godot_cpp/classes/ref.hpp>
-#include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/object.hpp>
 #include <godot_cpp/core/property_info.hpp>
@@ -18,11 +17,9 @@ struct FaustBinder
     }
 };
 
-void AudioEffectFaust::_bind_methods() {}
+// void AudioEffectFaust::_bind_methods() {}
 void AudioStreamFaust::_bind_methods()
 {
-    Ref<Resource>(*Test)() = nullptr;
-
     ClassDB::bind_method(D_METHOD("get_faust_dsp"), &AudioStreamFaust::get_faust_dsp);
     ClassDB::bind_method(D_METHOD("set_faust_dsp", "p_dsp"), &AudioStreamFaust::set_faust_dsp);
 

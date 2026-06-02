@@ -30,6 +30,22 @@ void AudioEffectFaust::AddProperty(PropertyInfo const& property)
     m_propertyList.push_back(property);
 }
 
+void AudioEffectFaust::SetProperty(StringName const& name, Variant const& value)
+{
+    _set(name, value);
+}
+
+std::optional<Variant> AudioEffectFaust::GetProperty(StringName const& name)
+{
+    Variant out;
+    return _get(name, out) ? out : std::optional<Variant>();
+}
+
+List<PropertyInfo>& AudioEffectFaust::GetPropertyList()
+{
+    return m_propertyList;
+}
+
 void AudioEffectFaust::_bind_methods() {}
 
 bool AudioEffectFaust::_set(const StringName &p_path, const Variant &p_value)
