@@ -13,11 +13,13 @@ void InitializeFaust2GodotModule(ModuleInitializationLevel level)
 {
     if (level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        GDREGISTER_CLASS(AudioEffectFaustInstance);
-        GDREGISTER_CLASS(AudioEffectFaust);
-
+#ifdef GENERATOR_DSP
         GDREGISTER_CLASS(AudioStreamPlaybackFaust);
         GDREGISTER_CLASS(AudioStreamFaust);
+#else
+        GDREGISTER_CLASS(AudioEffectFaustInstance);
+        GDREGISTER_CLASS(AudioEffectFaust);
+#endif
     }
 
     if (level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR)

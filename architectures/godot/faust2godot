@@ -84,13 +84,6 @@ shift
 done
 
 #-------------------------------------------------------------------
-# generate godot project
-#-------------------------------------------------------------------
-
-# copy godot project template
- cp -r $FAUSTARCH/godot/template ./"${f%}"
-
-#-------------------------------------------------------------------
 # compile the *.dsp files
 #-------------------------------------------------------------------
 
@@ -100,17 +93,41 @@ for f in $FILES; do
     echo "compile the DSP to c++ using the architecture file"
     faust -i -a $ARCHFILE $OPTIONS "$f" -o "${f%.dsp}.cpp"|| exit
 
+    # compile the DSP to json
+	  echo "compiling the dsp to Json"
+    faust -json $OPTIONS "$f" -o "$f.json"|| exit
+
+    INPUTS="$(cat $f.json | grep inputs | rev | cut -c 2)"
+
+    if [ $INPUTS = 0 ]; then
+      echo "Compiling dsp as generator"
+      CXXFLAGS+=" -DGENERATOR_DSP=1"
+    fi
+
+    # copy godot project template
+    cp -T -r $FAUSTARCH/godot/template ${f%.*}
+
     # compile c++ to binary
     echo "compile c++ to binary"
     (
-        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "./"${f%}/bin/${LIB_PREFIX}faustdsp${LIB_EXTENSION}" ${LIBADD}
+        $CXX $CXXFLAGS "${f%.dsp}.cpp" $UI -o "./${f%.*}/bin/${LIB_PREFIX}faustdsp${LIB_EXTENSION}" ${LIBADD}
     ) > /dev/null || exit
 
     # remove temporary files
+    rm -f "$f.json"
     rm -f "${f%.dsp}.cpp"
 
     # collect binary file name for FaustWorks
     BINARIES="$BINARIES${f%.dsp};"
+
+	# print sucess message in a h nice box
+	printf "\n"
+    msg="# DONE. Open the ${f%.*} directory inside Godot #"
+    edge=$(echo "$msg" | sed 's/./#/g')
+    echo "$edge"
+    echo "$msg"
+    echo "$edge"
+	printf "\n"
 done
 
 echo $BINARIES
