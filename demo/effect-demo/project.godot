@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="effect-demo"
+run/main_scene="uid://btqq5m3hbluep"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="uid://ddwd5ffbxbfud"
 
 [physics]
 
@@ -21,4 +26,3 @@ config/icon="res://icon.svg"
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="forward_plus"

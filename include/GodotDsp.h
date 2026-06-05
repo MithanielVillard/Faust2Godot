@@ -23,5 +23,4 @@ public:
 
 private:
     dsp* m_dspInstance;
-    DynLibrary m_dspLib;
 };

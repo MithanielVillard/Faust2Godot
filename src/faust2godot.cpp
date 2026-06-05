@@ -9,17 +9,31 @@
 
 using namespace godot;
 
+DynLibrary& GetFaustDSP()
+{
+    static DynLibrary dspLib;
+    return dspLib;
+}
+
 void InitializeFaust2GodotModule(ModuleInitializationLevel level)
 {
     if (level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-#ifdef GENERATOR_DSP
-        GDREGISTER_CLASS(AudioStreamPlaybackFaust);
-        GDREGISTER_CLASS(AudioStreamFaust);
-#else
+        if (auto res = GetFaustDSP().Open("bin/faustdsp"))
+        {
+            UtilityFunctions::printerr("Error while loading the lib faust dsp dynamic library : ", res.value().c_str());
+            return;
+        }
+
+        if (GetFaustDSP().GetFunction<bool()>("IsGenerator")())
+        {
+            GDREGISTER_CLASS(AudioStreamPlaybackFaust);
+            GDREGISTER_CLASS(AudioStreamFaust);
+            return;
+        }
+
         GDREGISTER_CLASS(AudioEffectFaustInstance);
         GDREGISTER_CLASS(AudioEffectFaust);
-#endif
     }
 
     if (level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR)

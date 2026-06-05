@@ -16,4 +16,12 @@
 extern "C"
 {
     LIB_EXPORT dsp* DspFactory() { return new mydsp; }
+    LIB_EXPORT bool IsGenerator()
+    {
+#if GENERATOR_DSP
+        return true;
+#else
+        return false;
+#endif
+    }
 }

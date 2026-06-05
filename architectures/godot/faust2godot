@@ -22,11 +22,13 @@ FILES=""
 UI=""
 LIB_PREFIX=""
 LIB_EXTENSION=""
+EFFECT=false
 
 echoHelp()
 {
-    usage faust2godot "[Faust options] <file.dsp>"
+    usage faust2godot "[options] [Faust options] <file.dsp>"
     echo "Compiles Faust programs to GDExtension usable in Godot game engine"
+    option "-effect" "force dsp to be compiled as Godot effect (even if it has no inputs)"
     option "Faust options"
     exit
 }
@@ -71,6 +73,8 @@ do
         CXXFLAGS="$CXXFLAGS -I /usr/local/include/ap_fixed -DFIXED_POINT"
     elif [ $p = "-layout" ]; then
         UI="-DLAYOUT_UI"
+    elif [ $p = "-effect" ]; then
+          EFFECT=true
     elif [ ${p:0:1} = "-" ]; then
         OPTIONS="$OPTIONS $p"
     elif [[ -f "$p" ]] && [ ${p: -4} == ".dsp" ]; then
@@ -93,15 +97,17 @@ for f in $FILES; do
     echo "compile the DSP to c++ using the architecture file"
     faust -i -a $ARCHFILE $OPTIONS "$f" -o "${f%.dsp}.cpp"|| exit
 
-    # compile the DSP to json
-	  echo "compiling the dsp to Json"
-    faust -json $OPTIONS "$f" -o "$f.json"|| exit
+    if [ "$EFFECT" = false ]; then
+      # compile the DSP to json
+      echo "compiling the dsp to Json"
+      faust -json $OPTIONS "$f" -o "$f.json"|| exit
 
-    INPUTS="$(cat $f.json | grep inputs | rev | cut -c 2)"
+      INPUTS="$(cat $f.json | grep inputs | rev | cut -c 2)"
 
-    if [ $INPUTS = 0 ]; then
-      echo "Compiling dsp as generator"
-      CXXFLAGS+=" -DGENERATOR_DSP=1"
+      if [ "$INPUTS" = 0 ]; then
+        echo "Compiling dsp as generator"
+        CXXFLAGS+=" -DGENERATOR_DSP=1"
+      fi
     fi
 
     # copy godot project template
