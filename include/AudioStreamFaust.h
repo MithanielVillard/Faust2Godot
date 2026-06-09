@@ -2,6 +2,7 @@
 #include "defines.h"
 #include "GodotMapUI.h"
 #include "GodotDsp.h"
+#include "MidiHandlerFaust.h"
 #include "IPropertyHandler.h"
 
 #include <godot_cpp/classes/audio_stream.hpp>
@@ -67,6 +68,9 @@ namespace godot
         int32 GetSampleRate() const { return m_sampleRate; }
         void SetSampleRate(int32 value) { m_sampleRate = value; }
 
+        NodePath const& GetMidiHandler() const { return m_midiHandler; };
+        void SetMidiHandler(NodePath const& midiHandler);
+
         friend class AudioStreamPlaybackFaust;
     private:
         uint64 m_pos {};
@@ -74,6 +78,7 @@ namespace godot
 
         uptr<GodotMapUI> m_dspUI;
         uptr<GodotDsp> m_dsp;
+        NodePath m_midiHandler;
 
         List<PropertyInfo> m_propertyList;
     };

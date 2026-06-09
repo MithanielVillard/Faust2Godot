@@ -1,5 +1,7 @@
 #include "AudioStreamFaust.h"
 
+#include "godot_cpp/classes/audio_stream_player.hpp"
+
 using namespace godot;
 
 AudioStreamFaust::AudioStreamFaust()
@@ -46,12 +48,16 @@ String AudioStreamFaust::_get_stream_name() const
 
 void AudioStreamFaust::_bind_methods()
 {
+    ClassDB::bind_method(D_METHOD("get_midi_handler"), &AudioStreamFaust::GetMidiHandler);
+    ClassDB::bind_method(D_METHOD("set_midi_handler", "p_midiHandler"), &AudioStreamFaust::SetMidiHandler);
+    ADD_PROPERTY(PropertyInfo(Variant::NODE_PATH, "midi_handler", PROPERTY_HINT_NODE_PATH_VALID_TYPES, "MidiHandlerFaust"), "set_midi_handler", "get_midi_handler");
 }
 
 bool AudioStreamFaust::_set(const StringName &p_path, const Variant &p_value)
 {
     if (p_path == String("resource_name")) return false;
     if (p_path == String("script")) return false;
+    if (p_path == String("midi_handler")) return false;
 
     if (m_dspUI)
     {
@@ -67,6 +73,7 @@ bool AudioStreamFaust::_get(const StringName &p_path, Variant &r_ret) const
     if (p_path == String("resource_name")) return false;
     if (p_path == String("resource_local_to_scene")) return false;
     if (p_path == String("script")) return false;
+    if (p_path == String("midi_handler")) return false;
 
     if (m_dspUI)
     {
@@ -79,6 +86,11 @@ bool AudioStreamFaust::_get(const StringName &p_path, Variant &r_ret) const
 void AudioStreamFaust::_get_property_list(List<PropertyInfo> *p_list) const
 {
     *p_list = m_propertyList;
+}
+
+void AudioStreamFaust::SetMidiHandler(NodePath const& midiHandler)
+{
+    m_midiHandler = midiHandler;
 }
 
 
@@ -117,4 +129,6 @@ int32_t AudioStreamPlaybackFaust::_mix(AudioFrame* p_buffer, float p_rate_scale,
     return p_frames;
 }
 
-void AudioStreamPlaybackFaust::_bind_methods() {}
+void AudioStreamPlaybackFaust::_bind_methods()
+{
+}

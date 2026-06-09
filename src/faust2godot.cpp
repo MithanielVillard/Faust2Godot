@@ -1,4 +1,5 @@
 #include "faust2godot.h"
+#include "MidiHandlerFaust.h"
 #include "AudioEffectFaust.h"
 #include "AudioStreamFaust.h"
 
@@ -19,21 +20,26 @@ void InitializeFaust2GodotModule(ModuleInitializationLevel level)
 {
     if (level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        if (auto res = GetFaustDSP().Open("bin/faustdsp"))
+        if (auto const res = GetFaustDSP().Open("bin/faustdsp"))
         {
             UtilityFunctions::printerr("Error while loading the lib faust dsp dynamic library : ", res.value().c_str());
             return;
         }
 
-        if (GetFaustDSP().GetFunction<bool()>("IsGenerator")())
+        GDREGISTER_CLASS(MidiHandlerFaust);
+
+        const auto isGenerator = GetFaustDSP().GetFunction<bool()>("IsGenerator");
+
+        if (isGenerator())
         {
             GDREGISTER_CLASS(AudioStreamPlaybackFaust);
             GDREGISTER_CLASS(AudioStreamFaust);
-            return;
         }
-
-        GDREGISTER_CLASS(AudioEffectFaustInstance);
-        GDREGISTER_CLASS(AudioEffectFaust);
+        else
+        {
+            GDREGISTER_CLASS(AudioEffectFaustInstance);
+            GDREGISTER_CLASS(AudioEffectFaust);
+        }
     }
 
     if (level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR)

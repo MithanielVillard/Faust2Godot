@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cn5qwlgnaou3k"]
 
 [sub_resource type="AudioStreamFaust" id="AudioStreamFaust_udokr"]
+midi_handler = NodePath("../MidiHandlerFaust")
 "Wet|Dry Mix" = 0.75
 Level = 8.0
 
@@ -8,3 +9,7 @@ Level = 8.0
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1993172026]
 stream = SubResource("AudioStreamFaust_udokr")
+
+[node name="MidiHandlerFaust" type="MidiHandlerFaust" parent="." unique_id=1855728402]
+
+[node name="Test" type="Node3D" parent="." unique_id=400568378]
