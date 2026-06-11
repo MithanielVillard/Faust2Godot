@@ -8,6 +8,8 @@
 #include <godot_cpp/classes/audio_stream.hpp>
 #include <godot_cpp/classes/audio_stream_playback.hpp>
 
+#include "GodotMidi.h"
+
 namespace godot
 {
     class AudioStreamFaust;
@@ -68,9 +70,6 @@ namespace godot
         int32 GetSampleRate() const { return m_sampleRate; }
         void SetSampleRate(int32 value) { m_sampleRate = value; }
 
-        NodePath const& GetMidiHandler() const { return m_midiHandler; };
-        void SetMidiHandler(NodePath const& midiHandler);
-
         friend class AudioStreamPlaybackFaust;
     private:
         uint64 m_pos {};
@@ -78,7 +77,7 @@ namespace godot
 
         uptr<GodotMapUI> m_dspUI;
         uptr<GodotDsp> m_dsp;
-        NodePath m_midiHandler;
+        uptr<GodotMidi> m_midiHandler;
 
         List<PropertyInfo> m_propertyList;
     };

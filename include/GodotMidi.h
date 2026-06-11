@@ -1,9 +1,8 @@
 #pragma once
-
-#include <godot_cpp/classes/input_event_midi.hpp>
+#include "MidiHandlerFaust.h"
 #include <faust/midi/midi.h>
 
-using namespace godot;
+namespace godot { class InputEventMIDI; }
 
 class GodotMidi : public midi_handler
 {
@@ -11,8 +10,11 @@ public:
     GodotMidi();
     ~GodotMidi() override = default;
 
-    bool startMidi() override { return true; };
-    void stopMidi() override {};
+    bool startMidi() override;
+    void stopMidi() override;
 
-    void OnMidiReceived(const InputEventMIDI* eventMidi);
+    void OnMidiReceived(godot::InputEventMIDI const* eventMidi);
+
+private:
+    godot::MidiHandlerFaust::ListIt m_midiListIt;
 };

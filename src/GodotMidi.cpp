@@ -1,16 +1,34 @@
 #include "GodotMidi.h"
-
 #include "MidiHandlerFaust.h"
 
-GodotMidi::GodotMidi(): midi_handler("GodotMidi")
+#include <godot_cpp/classes/input_event_midi.hpp>
+
+using namespace godot;
+
+GodotMidi::GodotMidi(): midi_handler("GodotMidi") {}
+
+bool GodotMidi::startMidi()
+{
+    MidiHandlerFaust* midi_handler = MidiHandlerFaust::GetInstance();
+    if (!midi_handler) return false;
+
+    midi_handler->MidiCallbacks.emplace_back(
+        [&](const InputEventMIDI* eventMidi){ OnMidiReceived(eventMidi); }
+    );
+
+    m_midiListIt = midi_handler->MidiCallbacks.end();
+    return true;
+}
+
+void GodotMidi::stopMidi()
 {
     MidiHandlerFaust* midi_handler = MidiHandlerFaust::GetInstance();
     if (!midi_handler) return;
 
-    midi_handler->MidiCallback = [&](const InputEventMIDI* eventMidi) { OnMidiReceived(eventMidi); };
+    midi_handler->MidiCallbacks.erase(m_midiListIt);
 }
 
-void GodotMidi::OnMidiReceived(const InputEventMIDI* eventMidi)
+void GodotMidi::OnMidiReceived(InputEventMIDI const* eventMidi)
 {
     switch (eventMidi->get_message())
     {

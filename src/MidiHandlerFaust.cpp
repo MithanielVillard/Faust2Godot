@@ -1,5 +1,6 @@
 #include "MidiHandlerFaust.h"
 
+#include <algorithm>
 #include <godot_cpp/classes/input_event_midi.hpp>
 #include <godot_cpp/classes/os.hpp>
 
@@ -29,7 +30,8 @@ void MidiHandlerFaust::_input(const Ref<InputEvent>& p_event)
     InputEventMIDI* event = static_cast<InputEventMIDI*>(p_event.ptr());
 
     HandleMidiInput(event);
-    MidiCallback(event);
+
+    std::ranges::for_each(MidiCallbacks, [&](MidiCallback const& callback) { callback(event); });
     emit_signal("midi_received", event);
 }
 

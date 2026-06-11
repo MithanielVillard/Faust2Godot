@@ -13,6 +13,9 @@ namespace godot
     GDCLASS(MidiHandlerFaust, Node)
 
     public:
+        using MidiCallback = std::function<void(InputEventMIDI*)>;
+        using ListIt = std::list<MidiCallback>::iterator;
+
         MidiHandlerFaust() = default;
         ~MidiHandlerFaust() override = default;
 
@@ -23,7 +26,7 @@ namespace godot
 
         static MidiHandlerFaust* GetInstance() { return m_pInstance; }
 
-        std::function<void(InputEventMIDI*)> MidiCallback;
+        std::list<MidiCallback> MidiCallbacks;
 
     protected:
         static void _bind_methods();

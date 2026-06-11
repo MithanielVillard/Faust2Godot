@@ -65,11 +65,13 @@ target_include_directories(${LIBNAME} PUBLIC "include/")
 
 target_sources(${LIBNAME}
     PRIVATE
+    src/FaustGUIGlue.cpp
     src/faust2godot.cpp
     src/AudioEffectFaust.cpp
     src/AudioStreamFaust.cpp
     src/MidiHandlerFaust.cpp
     src/GodotMapUI.cpp
+    src/GodotMidi.cpp
     src/GodotDsp.cpp
 )
 
