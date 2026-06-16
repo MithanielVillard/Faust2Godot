@@ -3,9 +3,9 @@
 #include "defines.h"
 #include "GodotMapUI.h"
 #include "GodotDsp.h"
+#include "GodotMidi.h"
 #include "MidiHandlerFaust.h"
 #include "IPropertyHandler.h"
-#include "GodotMidi.h"
 
 #include <faust/gui/MidiUI.h>
 #include <godot_cpp/classes/audio_stream.hpp>

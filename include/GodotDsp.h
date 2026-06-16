@@ -14,7 +14,7 @@ public:
     int32 GetNumOutputs() const { return m_dspInstance->getNumOutputs(); }
     int32 GetSampleRate() const { return m_dspInstance->getSampleRate(); }
 
-    void buildUserInterface(UI* uiInterface) { m_dspInstance->buildUserInterface(uiInterface); }
+    void buildUserInterface(UI* uiInterface) const { m_dspInstance->buildUserInterface(uiInterface); }
 
     void Compute(int32 count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs)
     {

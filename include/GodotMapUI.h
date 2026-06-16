@@ -7,7 +7,7 @@ class GodotMapUI : public MapUI
 {
 public:
 
-    GodotMapUI(IPropertyHandler* effectRef);
+    GodotMapUI(IPropertyHandler& effectRef);
     ~GodotMapUI() override = default;
 
     void addButton(const char* label, float* zone) override;
@@ -15,5 +15,5 @@ public:
     void addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step) override;
 
 private:
-    IPropertyHandler* m_pAudioEffect;
+    IPropertyHandler& m_pPropertyHandler;
 };

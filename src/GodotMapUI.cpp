@@ -10,15 +10,15 @@ using namespace godot;
 StringName striped_label(label);                                    \
 striped_label = striped_label.replace_char('/', '|');               \
                                                                     \
-for (PropertyInfo& info : m_pAudioEffect->GetPropertyList())           \
+for (PropertyInfo& info : m_pPropertyHandler.GetPropertyList())     \
     if (info.name == striped_label) return;                         \
                                                                     \
 addZoneLabel(String(striped_label).utf8().get_data(), zone);        \
-m_pAudioEffect->AddProperty(property);                              \
+m_pPropertyHandler.AddProperty(property);                           \
 
 
 
-GodotMapUI::GodotMapUI(IPropertyHandler* effectRef) : m_pAudioEffect(effectRef) {}
+GodotMapUI::GodotMapUI(IPropertyHandler& effectRef) : m_pPropertyHandler(effectRef) {}
 
 void GodotMapUI::addButton(const char* label, float* zone)
 {
@@ -38,7 +38,7 @@ void GodotMapUI::addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLO
         PROPERTY_HINT_RANGE,
         std::format("{},{},{}", min, max, step).c_str())
     );
-    m_pAudioEffect->SetProperty(striped_label, init);  //Set initial value of parameter
+    m_pPropertyHandler.SetProperty(striped_label, init);  //Set initial value of parameter
 }
 
 void GodotMapUI::addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step)
@@ -50,5 +50,5 @@ void GodotMapUI::addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTF
          PROPERTY_HINT_RANGE,
          std::format("{},{},{}", min, max, step).c_str())
      );
-    m_pAudioEffect->SetProperty(striped_label, init);  //Set initial value of parameter
+    m_pPropertyHandler.SetProperty(striped_label, init);  //Set initial value of parameter
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "defines.h"
 #include "IPropertyHandler.h"
+#include "GodotDsp.h"
 
 #include <godot_cpp/classes/audio_effect_instance.hpp>
 #include <godot_cpp/classes/audio_effect.hpp>
@@ -32,8 +33,8 @@ namespace godot
     private:
         friend AudioEffectFaust;
 
+        GodotDsp m_dsp;
         Ref<AudioEffectFaust> m_base;
-        uptr<GodotDsp> m_dsp;
 
         //Hardcoded 2 inputs and outputs. Seems to be a godot hard limitation
         float* m_input[2] {};
@@ -55,6 +56,7 @@ namespace godot
         void SetProperty(StringName const& name, Variant const& value) override;
         std::optional<Variant> GetProperty(StringName const& name) override;
         List<PropertyInfo>& GetPropertyList() override;
+        void NotifyPropertyChanged() override;
 
     protected:
         static void _bind_methods();

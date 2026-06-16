@@ -2,13 +2,11 @@
 #include "MidiHandlerFaust.h"
 
 #include <godot_cpp/classes/input_event_midi.hpp>
-
-#include "IPropertyHandler.h"
-#include "godot_cpp/variant/utility_functions.hpp"
+#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
 
-GodotMidi::GodotMidi(IPropertyHandler& handler): midi_handler("GodotMidi"), m_pPropertyHandler(handler) {}
+GodotMidi::GodotMidi(): midi_handler("GodotMidi") {}
 
 bool GodotMidi::startMidi()
 {
@@ -68,6 +66,4 @@ void GodotMidi::OnMidiReceived(InputEventMIDI const* eventMidi)
             handleSysex(0, temp);
             break;
     }
-
-    m_pPropertyHandler.NotifyPropertyChanged();
 }

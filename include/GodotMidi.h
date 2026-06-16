@@ -10,7 +10,7 @@ namespace godot { class InputEventMIDI; }
 class GodotMidi : public midi_handler
 {
 public:
-    GodotMidi(IPropertyHandler& handler);
+    GodotMidi();
     ~GodotMidi() override = default;
 
     bool startMidi() override;
@@ -20,5 +20,4 @@ public:
 
 private:
     godot::MidiHandlerFaust::ListIt m_midiListIt;
-    IPropertyHandler& m_pPropertyHandler;
 };

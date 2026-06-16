@@ -8,7 +8,7 @@ using namespace godot;
 
 AudioEffectFaust::AudioEffectFaust()
 {
-    m_dspUI = std::make_unique<GodotMapUI>(this);
+    m_dspUI = std::make_unique<GodotMapUI>(*this);
 }
 
 AudioEffectFaust::~AudioEffectFaust() = default;
@@ -19,8 +19,7 @@ Ref<AudioEffectInstance> AudioEffectFaust::_instantiate()
     ins.instantiate();
 
     ins->m_base  = Ref<AudioEffectFaust>(this);
-    ins->m_dsp   = std::make_unique<GodotDsp>();
-    ins->m_dsp->buildUserInterface(m_dspUI.get());
+    ins->m_dsp.buildUserInterface(m_dspUI.get());
 
     return ins;
 }
@@ -44,6 +43,11 @@ std::optional<Variant> AudioEffectFaust::GetProperty(StringName const& name)
 List<PropertyInfo>& AudioEffectFaust::GetPropertyList()
 {
     return m_propertyList;
+}
+
+void AudioEffectFaust::NotifyPropertyChanged()
+{
+    notify_property_list_changed();
 }
 
 void AudioEffectFaust::_bind_methods() {}
@@ -111,7 +115,7 @@ void AudioEffectFaustInstance::_process(void const* pSrcFrames, AudioFrame* pDst
          m_input[1][i] = src[i].right;
     }
 
-    m_dsp->Compute(frameCount, m_input, m_output);
+    m_dsp.Compute(frameCount, m_input, m_output);
 
     for (int i = 0; i < frameCount; i++)
     {
