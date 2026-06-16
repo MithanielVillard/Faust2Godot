@@ -1,21 +1,26 @@
 #include "AudioStreamFaust.h"
 
-#include <godot_cpp/classes/audio_stream_player.hpp>
 #include <faust/gui/MidiUI.h>
+#include <godot_cpp/classes/audio_stream_player.hpp>
+#include <godot_cpp/classes/input.hpp>
 
 using namespace godot;
 
 AudioStreamFaust::AudioStreamFaust()
 {
-    m_dspUI = std::make_unique<GodotMapUI>(this);
-    m_dsp   = std::make_unique<GodotDsp>();
-    m_midiHandler = std::make_unique<GodotMidi>();
+    m_dspUI       = std::make_unique<GodotMapUI>(*this);
+    m_midiHandler = std::make_unique<GodotMidi>(*this);
+    m_midiUI      = std::make_unique<MidiUI>(m_midiHandler.get());
 
-    MidiUI midiUi(m_midiHandler.get());
+    m_dsp.buildUserInterface(m_dspUI.get());
+    m_dsp.buildUserInterface(m_midiUI.get());
 
-    m_dsp->buildUserInterface(m_dspUI.get());
-    m_dsp->buildUserInterface(&midiUi);
+    m_midiHandler->startMidi();
+}
 
+AudioStreamFaust::~AudioStreamFaust()
+{
+    m_midiHandler->stopMidi();
 }
 
 Ref<AudioStreamPlayback> AudioStreamFaust::_instantiate_playback() const
@@ -48,6 +53,11 @@ List<PropertyInfo>& AudioStreamFaust::GetPropertyList()
     return m_propertyList;
 }
 
+void AudioStreamFaust::NotifyPropertyChanged()
+{
+    notify_property_list_changed();
+}
+
 String AudioStreamFaust::_get_stream_name() const
 {
     return "AudioStreamFaust";
@@ -57,31 +67,45 @@ void AudioStreamFaust::_bind_methods(){}
 
 bool AudioStreamFaust::_set(const StringName &p_path, const Variant &p_value)
 {
-    if (p_path == String("resource_name")) return false;
-    if (p_path == String("script")) return false;
-    if (p_path == String("midi_handler")) return false;
+    // if (p_path == String("resource_name")) return false;
+    // if (p_path == String("script")) return false;
+    // if (p_path == String("midi_handler")) return false;
 
-    if (m_dspUI)
+    if (!m_dspUI) return false;
+
+    std::string const path = String(p_path).utf8().get_data();
+
+    if (m_dspUI->getFullpathMap().contains(path)   ||
+        m_dspUI->getShortnameMap().contains(path)  ||
+        m_dspUI->getLabelMap().contains(path))
     {
         m_dspUI->setParamValue(String(p_path).utf8().get_data(), p_value);
         return true;
     }
+
     return false;
 }
 
 bool AudioStreamFaust::_get(const StringName &p_path, Variant &r_ret) const
 {
-    if (p_path == String("resource_path")) return false;
-    if (p_path == String("resource_name")) return false;
-    if (p_path == String("resource_local_to_scene")) return false;
-    if (p_path == String("script")) return false;
-    if (p_path == String("midi_handler")) return false;
+    // if (p_path == String("resource_path")) return false;
+    // if (p_path == String("resource_name")) return false;
+    // if (p_path == String("resource_local_to_scene")) return false;
+    // if (p_path == String("script")) return false;
+    // if (p_path == String("midi_handler")) return false;
 
-    if (m_dspUI)
+    if (!m_dspUI) return false;
+
+    std::string const path = String(p_path).utf8().get_data();
+
+    if (m_dspUI->getFullpathMap().contains(path)   ||
+        m_dspUI->getShortnameMap().contains(path)  ||
+        m_dspUI->getLabelMap().contains(path))
     {
-        r_ret = m_dspUI->getParamValue(String(p_path).utf8().get_data());
+        r_ret = m_dspUI->getParamValue(path);
         return true;
     }
+
     return false;
 }
 
@@ -106,16 +130,9 @@ int32_t AudioStreamPlaybackFaust::_mix(AudioFrame* p_buffer, float p_rate_scale,
 {
     if (!m_active) return 0;
 
-    // for (int i = 0; i < p_frames; i++) {
-    //     float res = sin(2.0 * Math_PI * double(m_pos + i) / (double(m_base->m_sampleRate) / 440));
-    //     AudioFrame const frame(res, res);
-    //     p_buffer[i] = frame;
-    // }
-    //
-    // m_pos += p_frames;
+    m_base->m_dsp.Compute(p_frames, nullptr, m_output);
 
-    m_base->m_dsp->Compute(p_frames, nullptr, m_output);
-
+    //Deinterlace
     for (int i = 0; i < p_frames; i++)
     {
         p_buffer[i].left  = m_output[0][i];

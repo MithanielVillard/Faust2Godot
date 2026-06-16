@@ -1,14 +1,16 @@
 #pragma once
+
 #include "defines.h"
 #include "GodotMapUI.h"
 #include "GodotDsp.h"
 #include "MidiHandlerFaust.h"
 #include "IPropertyHandler.h"
+#include "GodotMidi.h"
 
+#include <faust/gui/MidiUI.h>
 #include <godot_cpp/classes/audio_stream.hpp>
 #include <godot_cpp/classes/audio_stream_playback.hpp>
 
-#include "GodotMidi.h"
 
 namespace godot
 {
@@ -50,7 +52,7 @@ namespace godot
 
     public:
         AudioStreamFaust();
-        ~AudioStreamFaust() override = default;
+        ~AudioStreamFaust() override;
 
         Ref<AudioStreamPlayback> _instantiate_playback() const override;
         String _get_stream_name() const override;
@@ -60,6 +62,7 @@ namespace godot
         void SetProperty(StringName const& name, Variant const& value) override;
         std::optional<Variant> GetProperty(StringName const& name) override;
         List<PropertyInfo>& GetPropertyList() override;
+        void NotifyPropertyChanged() override;
 
     protected:
         static void _bind_methods();
@@ -75,9 +78,10 @@ namespace godot
         uint64 m_pos {};
         int32 m_sampleRate { 48'000 }; //TODO CHANGE;
 
+        GodotDsp m_dsp;
         uptr<GodotMapUI> m_dspUI;
-        uptr<GodotDsp> m_dsp;
         uptr<GodotMidi> m_midiHandler;
+        uptr<MidiUI> m_midiUI;
 
         List<PropertyInfo> m_propertyList;
     };

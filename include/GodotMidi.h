@@ -1,13 +1,16 @@
 #pragma once
 #include "MidiHandlerFaust.h"
+
 #include <faust/midi/midi.h>
+
+class IPropertyHandler;
 
 namespace godot { class InputEventMIDI; }
 
 class GodotMidi : public midi_handler
 {
 public:
-    GodotMidi();
+    GodotMidi(IPropertyHandler& handler);
     ~GodotMidi() override = default;
 
     bool startMidi() override;
@@ -17,4 +20,5 @@ public:
 
 private:
     godot::MidiHandlerFaust::ListIt m_midiListIt;
+    IPropertyHandler& m_pPropertyHandler;
 };

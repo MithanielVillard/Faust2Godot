@@ -24,16 +24,12 @@ namespace godot
         void _input(const Ref<InputEvent>& p_event) override;
         void _exit_tree() override;
 
-        static MidiHandlerFaust* GetInstance() { return m_pInstance; }
-
-        std::list<MidiCallback> MidiCallbacks;
+        static std::list<MidiCallback> MidiCallbacks;
 
     protected:
         static void _bind_methods();
 
         void HandleMidiInput(InputEventMIDI* midiEvent);
-
-        inline static MidiHandlerFaust* m_pInstance;
     };
 
 }
