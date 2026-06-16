@@ -12,7 +12,16 @@ config_version=5
 
 config/name="generator-demo"
 config/features=PackedStringArray("4.6", "Forward Plus")
+run/main_scene="uid://cn5qwlgnaou3k"
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+
+
 
 [physics]
 
@@ -21,4 +30,3 @@ config/icon="res://icon.svg"
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="forward_plus"

@@ -47,8 +47,6 @@ void GodotMidi::OnMidiReceived(InputEventMIDI const* eventMidi)
             handleAfterTouch(0, eventMidi->get_channel(), eventMidi->get_pressure());
             break;
         case MIDI_MESSAGE_CONTROL_CHANGE:
-            UtilityFunctions::print("Controller number : ", eventMidi->get_controller_number());
-            UtilityFunctions::print("Controller value : ", eventMidi->get_controller_value());
             handleCtrlChange(0, eventMidi->get_channel(), eventMidi->get_controller_number(), eventMidi->get_controller_value());
             break;
         case MIDI_MESSAGE_START:

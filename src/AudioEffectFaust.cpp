@@ -89,11 +89,11 @@ void AudioEffectFaust::_get_property_list(List<PropertyInfo> *p_list) const
 
 AudioEffectFaustInstance::AudioEffectFaustInstance()
 {
-    m_input[0] = new float[1024];
-    m_input[1] = new float[1024];
+    m_input[0]  = new float[1024] {};
+    m_input[1]  = new float[1024] {};
 
-    m_output[0] = new float[1024];
-    m_output[1] = new float[1024];
+    m_output[0] = new float[1024] {};
+    m_output[1] = new float[1024] {};
 }
 
 AudioEffectFaustInstance::~AudioEffectFaustInstance()

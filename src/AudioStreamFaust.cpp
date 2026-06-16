@@ -107,8 +107,8 @@ void AudioStreamFaust::_get_property_list(List<PropertyInfo> *p_list) const
 
 AudioStreamPlaybackFaust::AudioStreamPlaybackFaust()
 {
-    m_output[0] = new float[m_bufferSize];
-    m_output[1] = new float[m_bufferSize];
+    m_output[0] = new float[m_bufferSize] {};
+    m_output[1] = new float[m_bufferSize] {};
 }
 
 AudioStreamPlaybackFaust::~AudioStreamPlaybackFaust()
