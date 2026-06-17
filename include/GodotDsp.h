@@ -16,11 +16,7 @@ public:
 
     void buildUserInterface(UI* uiInterface) const { m_dspInstance->buildUserInterface(uiInterface); }
 
-    void Compute(int32 count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs)
-    {
-        m_dspInstance->compute(count, inputs, outputs);
-    }
-
+    void Compute(int32 count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) { m_dspInstance->compute(count, inputs, outputs); }
 private:
     dsp* m_dspInstance;
 };

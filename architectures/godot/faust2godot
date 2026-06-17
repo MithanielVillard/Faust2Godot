@@ -1,5 +1,4 @@
 #!/bin/bash -e
-
 # Define some common paths
 . faustpath
 
@@ -23,6 +22,8 @@ UI=""
 LIB_PREFIX=""
 LIB_EXTENSION=""
 EFFECT=false
+GEFFECT=""
+NVOICES=0
 
 echoHelp()
 {
@@ -41,7 +42,7 @@ fi
 
 
 #-------------------------------------------------------------------
-# resolve lib decoration by plateforms
+# resolve lib decoration by platforms
 #-------------------------------------------------------------------
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -75,6 +76,12 @@ do
         UI="-DLAYOUT_UI"
     elif [ $p = "-effect" ]; then
           EFFECT=true
+    elif [ $p = "-nvoices" ]; then
+          shift
+          NVOICES=$1
+    elif [ $p = "-geffect" ]; then
+          shift
+          GEFFECT=$1
     elif [ ${p:0:1} = "-" ]; then
         OPTIONS="$OPTIONS $p"
     elif [[ -f "$p" ]] && [ ${p: -4} == ".dsp" ]; then
@@ -86,6 +93,15 @@ do
 shift
 
 done
+
+#-------------------------------------------------------------------
+# compile the global effect file
+#-------------------------------------------------------------------
+
+if [ "$GEFFECT" != "" ]; then
+  echo "compile the effect DSP to a .h using the minimal-effect architecture file"
+  faust -i -cn effect -a minimal-effect.cpp "${GEFFECT}" -o "effect.h" || exit
+fi
 
 #-------------------------------------------------------------------
 # compile the *.dsp files
@@ -110,8 +126,14 @@ for f in $FILES; do
       fi
     fi
 
+    if [ "$NVOICES" -gt 0 ]; then
+      echo "Compiling dsp as polyphonic"
+      echo "Number of voices : ${NVOICES}"
+      CXXFLAGS+=" -DPOLY -DNVOICES=${NVOICES}"
+    fi
+
     # copy godot project template
-    cp -T -r $FAUSTARCH/godot/template ${f%.*}
+    cp -r $FAUSTARCH/godot/template ./${f%.*}
 
     # compile c++ to binary
     echo "compile c++ to binary"
@@ -122,6 +144,7 @@ for f in $FILES; do
     # remove temporary files
     rm -f "$f.json"
     rm -f "${f%.dsp}.cpp"
+    rm -f "${GEFFECT%.dsp}.h"
 
     # collect binary file name for FaustWorks
     BINARIES="$BINARIES${f%.dsp};"
