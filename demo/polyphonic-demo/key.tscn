@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://btyso1e1wkwmq"]
+
+[ext_resource type="Script" uid="uid://bop3h7871yqwi" path="res://Key.gd" id="1_up4cr"]
+
+[node name="Key" type="Panel" unique_id=1268491964]
+self_modulate = Color(18.892157, 18.892157, 18.892157, 1)
+custom_minimum_size = Vector2(70, 250)
+size_flags_vertical = 3
+script = ExtResource("1_up4cr")
+key_id = 50

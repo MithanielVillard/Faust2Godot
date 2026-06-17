@@ -1,0 +1,199 @@
+[gd_scene format=3 uid="uid://cn5qwlgnaou3k"]
+
+[ext_resource type="Script" uid="uid://we805sdb8t1t" path="res://Demo.gd" id="1_l4713"]
+[ext_resource type="PackedScene" uid="uid://btyso1e1wkwmq" path="res://key.tscn" id="2_64soo"]
+
+[sub_resource type="AudioStreamFaust" id="AudioStreamFaust_l4713"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64soo"]
+bg_color = Color(0.012645883, 0.012645884, 0.01264587, 1)
+
+[node name="Scene" type="Node3D" unique_id=55228684]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1069599876]
+current = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1993172026]
+transform = Transform3D(0.9999953, -0.0030717745, 0, 0.0030717745, 0.9999953, 0, 0, 0, 1, 0.29321337, 0, 0)
+stream = SubResource("AudioStreamFaust_l4713")
+volume_db = 21.65
+autoplay = true
+
+[node name="MidiHandlerFaust" type="MidiHandlerFaust" parent="." unique_id=1855728402 node_paths=PackedStringArray("audio_player")]
+script = ExtResource("1_l4713")
+audio_player = NodePath("../AudioStreamPlayer3D")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=659608886]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1986466722]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1541310019]
+layout_mode = 2
+theme_override_constants/separation = 4
+alignment = 1
+
+[node name="Key16" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1268491964 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-155, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 49
+
+[node name="Key17" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1166172870 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-145, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 51
+
+[node name="Key18" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1955318047 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-80, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 54
+
+[node name="Key19" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1023579475 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-70, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 56
+
+[node name="Key20" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1431338475 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-60, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 58
+
+[node name="Key22" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=165453672 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(-5, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 61
+
+[node name="Key23" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1542527535 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(5, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 63
+
+[node name="Key24" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1931042064 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(65, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 66
+
+[node name="Key25" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=1020481036 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(75, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 68
+
+[node name="Key26" parent="CenterContainer/VBoxContainer/HBoxContainer" unique_id=264204619 instance=ExtResource("2_64soo")]
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(85, 0)
+theme_override_styles/panel = SubResource("StyleBoxFlat_64soo")
+key_id = 70
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer" unique_id=1058286599]
+layout_mode = 2
+
+[node name="Key" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=532580271 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 48
+
+[node name="Key2" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=248027290 instance=ExtResource("2_64soo")]
+layout_mode = 2
+
+[node name="Key3" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1681093857 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 52
+
+[node name="Key4" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=288388616 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 53
+
+[node name="Key5" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=599911200 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 55
+
+[node name="Key6" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1985775679 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 57
+
+[node name="Key7" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1315786547 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 59
+
+[node name="Key8" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1580799941 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 60
+
+[node name="Key9" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=293645479 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 62
+
+[node name="Key10" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1023766712 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 64
+
+[node name="Key11" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=531018344 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 65
+
+[node name="Key12" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1347660526 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 67
+
+[node name="Key13" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=806648160 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 69
+
+[node name="Key14" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=223127283 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 71
+
+[node name="Key15" parent="CenterContainer/VBoxContainer/HBoxContainer2" unique_id=1307252900 instance=ExtResource("2_64soo")]
+layout_mode = 2
+key_id = 72
+
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key16" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key17" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key18" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key19" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key20" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key22" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key23" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key24" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key25" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer/Key26" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key2" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key3" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key4" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key5" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key6" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key7" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key8" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key9" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key10" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key11" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key12" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key13" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key14" method="_on_midi_handler_faust_midi_received"]
+[connection signal="midi_received" from="MidiHandlerFaust" to="CenterContainer/VBoxContainer/HBoxContainer2/Key15" method="_on_midi_handler_faust_midi_received"]

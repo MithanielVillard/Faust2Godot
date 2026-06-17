@@ -35,6 +35,7 @@ LIB_EXPORT dsp* DspFactory() { return new mydsp_poly(new mydsp, NVOICES, true, t
 #   endif
 
 LIB_EXPORT unsigned int GetNbrVoices() { return NVOICES; }
+
 #else
 LIB_EXPORT dsp* DspFactory() { return new mydsp; }
 #endif

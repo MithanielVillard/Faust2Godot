@@ -70,18 +70,14 @@ namespace godot
         bool _get(const StringName &p_path, Variant &r_ret) const;
         void _get_property_list(List<PropertyInfo> *p_list) const;
 
-        int32 GetSampleRate() const { return m_sampleRate; }
-        void SetSampleRate(int32 value) { m_sampleRate = value; }
-
         friend class AudioStreamPlaybackFaust;
     private:
         uint64 m_pos {};
-        int32 m_sampleRate { 48'000 }; //TODO CHANGE;
 
-        GodotDsp m_dsp;
         uptr<GodotMapUI> m_dspUI;
         uptr<GodotMidi> m_midiHandler;
         uptr<MidiUI> m_midiUI;
+        GodotDsp m_dsp;
 
         List<PropertyInfo> m_propertyList;
     };

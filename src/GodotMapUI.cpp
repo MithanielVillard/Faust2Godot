@@ -24,8 +24,9 @@ void GodotMapUI::addButton(const char* label, float* zone)
 {
     REGISTER_PROPERTY(
         PropertyInfo(
-        Variant::BOOL,
-        striped_label)
+        Variant::CALLABLE,
+        striped_label,
+        PROPERTY_HINT_TOOL_BUTTON)
     );
 }
 
@@ -49,6 +50,15 @@ void GodotMapUI::addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTF
          striped_label,
          PROPERTY_HINT_RANGE,
          std::format("{},{},{}", min, max, step).c_str())
-     );
+    );
     m_pPropertyHandler.SetProperty(striped_label, init);  //Set initial value of parameter
+}
+
+void GodotMapUI::addCheckButton(const char *label, float *zone)
+{
+    REGISTER_PROPERTY(
+      PropertyInfo(
+      Variant::BOOL,
+      striped_label)
+  );
 }
