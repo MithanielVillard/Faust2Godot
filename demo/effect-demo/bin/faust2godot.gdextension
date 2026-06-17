@@ -6,8 +6,8 @@ reloadable = true
 
 [libraries]
 
-macos.debug = "res://bin/faust2godot.macos.template_debug.framework"
-macos.release = "res://bin/faust2godot.macos.template_release.framework"
+macos.debug = "res://bin/macos/faust2godot.macos.template_debug.x86_64.dylib"
+macos.release = "res://bin/macos/faust2godot.macos.template_release.x86_64.dylib"
 ios.debug = "res://bin/faust2godot.ios.template_debug.xcframework"
 ios.release = "res://bin/faust2godot.ios.template_release.xcframework"
 windows.debug.x86_32 = "res://bin/faust2godot.windows.template_debug.x86_32.dll"
