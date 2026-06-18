@@ -54,29 +54,35 @@ void AudioEffectFaust::_bind_methods() {}
 
 bool AudioEffectFaust::_set(const StringName &p_path, const Variant &p_value)
 {
-    if (p_path == String("resource_name")) return false;
-    if (p_path == String("script")) return false;
+    if (!m_dspUI) return false;
 
-    if (m_dspUI)
+    std::string const path = String(p_path).utf8().get_data();
+
+    if (m_dspUI->getFullpathMap().contains(path)   ||
+        m_dspUI->getShortnameMap().contains(path)  ||
+        m_dspUI->getLabelMap().contains(path))
     {
         m_dspUI->setParamValue(String(p_path).utf8().get_data(), p_value);
         return true;
     }
+
     return false;
 }
 
 bool AudioEffectFaust::_get(const StringName &p_path, Variant &r_ret) const
 {
-    if (p_path == String("resource_path")) return false;
-    if (p_path == String("resource_name")) return false;
-    if (p_path == String("resource_local_to_scene")) return false;
-    if (p_path == String("script")) return false;
+    if (!m_dspUI) return false;
 
-    if (m_dspUI)
+    std::string const path = String(p_path).utf8().get_data();
+
+    if (m_dspUI->getFullpathMap().contains(path)   ||
+        m_dspUI->getShortnameMap().contains(path)  ||
+        m_dspUI->getLabelMap().contains(path))
     {
-        r_ret = m_dspUI->getParamValue(String(p_path).utf8().get_data());
+        r_ret = m_dspUI->getParamValue(path);
         return true;
     }
+
     return false;
 }
 
@@ -115,7 +121,7 @@ void AudioEffectFaustInstance::_process(void const* pSrcFrames, AudioFrame* pDst
          m_input[1][i] = src[i].right;
     }
 
-    m_dsp.Compute(frameCount, m_input, m_output);
+     m_dsp.Compute(frameCount, m_input, m_output);
 
     for (int i = 0; i < frameCount; i++)
     {
@@ -126,7 +132,7 @@ void AudioEffectFaustInstance::_process(void const* pSrcFrames, AudioFrame* pDst
 
 bool AudioEffectFaustInstance::_process_silence() const
 {
-    return true;
+    return false;
 }
 
 void AudioEffectFaustInstance::_bind_methods() {}
