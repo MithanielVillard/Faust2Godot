@@ -74,12 +74,12 @@ do
         CXXFLAGS="$CXXFLAGS -I /usr/local/include/ap_fixed -DFIXED_POINT"
     elif [ $p = "-layout" ]; then
         UI="-DLAYOUT_UI"
-    elif [ $p = "-effect" ]; then
+    elif [ $p = "-as-bus-effect" ]; then
           EFFECT=true
     elif [ $p = "-nvoices" ]; then
           shift
           NVOICES=$1
-    elif [ $p = "-as-bus-effect" ]; then
+    elif [ $p = "-effect" ]; then
           shift
           GEFFECT=$1
     elif [ ${p:0:1} = "-" ]; then
