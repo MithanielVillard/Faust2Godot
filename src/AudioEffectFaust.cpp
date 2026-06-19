@@ -9,9 +9,16 @@ using namespace godot;
 AudioEffectFaust::AudioEffectFaust()
 {
     m_dspUI = std::make_unique<GodotMapUI>(*this);
+    m_midiHandler = std::make_unique<GodotMidi>();
+    m_midiUI      = std::make_unique<MidiUI>(m_midiHandler.get());
+
+    m_midiHandler->startMidi();
 }
 
-AudioEffectFaust::~AudioEffectFaust() = default;
+AudioEffectFaust::~AudioEffectFaust()
+{
+    m_midiHandler->stopMidi();
+}
 
 Ref<AudioEffectInstance> AudioEffectFaust::_instantiate()
 {
@@ -20,6 +27,7 @@ Ref<AudioEffectInstance> AudioEffectFaust::_instantiate()
 
     ins->m_base  = Ref<AudioEffectFaust>(this);
     ins->m_dsp.buildUserInterface(m_dspUI.get());
+    ins->m_dsp.buildUserInterface(m_midiUI.get());
 
     return ins;
 }

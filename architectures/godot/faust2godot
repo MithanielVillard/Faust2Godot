@@ -98,7 +98,7 @@ done
 # compile the global effect file
 #-------------------------------------------------------------------
 
-if [ "$GEFFECT" != "" ]; then
+if [ -n "$GEFFECT" ]; then
   echo "compile the effect DSP to a .h using the minimal-effect architecture file"
   faust -i -cn effect -a minimal-effect.cpp "${GEFFECT}" -o "effect.h" || exit
 fi
@@ -132,6 +132,10 @@ for f in $FILES; do
       CXXFLAGS+=" -DPOLY -DNVOICES=${NVOICES}"
     fi
 
+	if [ -n "$GEFFECT" ]; then
+		CXXFLAGS+=" -DGLOBAL_EFFECT"
+	fi
+
     # copy godot project template
     cp -r $FAUSTARCH/godot/template ./${f%.*}
 
@@ -143,7 +147,7 @@ for f in $FILES; do
 
     # remove temporary files
     rm -f "$f.json"
-    rm -f "${f%.dsp}.cpp"
+    #rm -f "${f%.dsp}.cpp"
     rm -f "${GEFFECT%.dsp}.h"
 
     # collect binary file name for FaustWorks

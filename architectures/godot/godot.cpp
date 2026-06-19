@@ -27,8 +27,8 @@ ztimedmap  GUI::gTimedZoneMap;
 
 extern "C"
 {
-#if POLY
-#   if GLOBAL_EFFECT
+#ifdef POLY
+#   ifdef GLOBAL_EFFECT
 LIB_EXPORT dsp* DspFactory() { return new dsp_sequencer(new mydsp_poly(new mydsp, NVOICES, true, true), new effect()); }
 #   else
 LIB_EXPORT dsp* DspFactory() { return new mydsp_poly(new mydsp, NVOICES, true, true); }

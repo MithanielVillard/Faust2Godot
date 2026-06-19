@@ -1,8 +1,11 @@
 #pragma once
+
 #include "defines.h"
 #include "IPropertyHandler.h"
 #include "GodotDsp.h"
+#include "GodotMidi.h"
 
+#include <faust/gui/MidiUI.h>
 #include <godot_cpp/classes/audio_effect_instance.hpp>
 #include <godot_cpp/classes/audio_effect.hpp>
 #include <godot_cpp/core/property_info.hpp>
@@ -66,8 +69,11 @@ namespace godot
 
        	friend class AudioEffectFaustInstance;
     private:
-        List<PropertyInfo> m_propertyList;
+        uptr<GodotMidi> m_midiHandler;
+        uptr<MidiUI> m_midiUI;
         uptr<GodotMapUI> m_dspUI;
+
+        List<PropertyInfo> m_propertyList;
     };
 
 }

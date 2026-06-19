@@ -5,7 +5,7 @@
 
 [node name="Main" type="Node3D" unique_id=328652537]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1679762574]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1480623694]
 stream = ExtResource("1_ig7tw")
 bus = &"Faust"
 
@@ -51,6 +51,7 @@ horizontal_alignment = 1
 
 [node name="HSlider" type="HSlider" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=1143640559]
 layout_mode = 2
+step = 0.1
 
 [node name="Label2" type="Label" parent="Control/MarginContainer/MarginContainer/BoxContainer" unique_id=94682033]
 layout_mode = 2

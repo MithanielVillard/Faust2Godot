@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://btyso1e1wkwmq" path="res://key.tscn" id="2_64soo"]
 
 [sub_resource type="AudioStreamFaust" id="AudioStreamFaust_l4713"]
+delay = 588.0
+feedback = 22.9
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_64soo"]
 bg_color = Color(0.012645883, 0.012645884, 0.01264587, 1)

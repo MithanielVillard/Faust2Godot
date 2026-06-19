@@ -71,9 +71,8 @@ namespace godot
         void _get_property_list(List<PropertyInfo> *p_list) const;
 
         friend class AudioStreamPlaybackFaust;
-    private:
-        uint64 m_pos {};
 
+    private:
         uptr<GodotMapUI> m_dspUI;
         uptr<GodotMidi> m_midiHandler;
         uptr<MidiUI> m_midiUI;

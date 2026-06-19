@@ -15,6 +15,10 @@ run/main_scene="uid://cn5qwlgnaou3k"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/channel_disable_time=50.0
+
 [display]
 
 window/size/viewport_width=1920

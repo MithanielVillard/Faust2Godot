@@ -3,7 +3,8 @@
 [ext_resource type="Script" uid="uid://we805sdb8t1t" path="res://Demo.gd" id="1_l4713"]
 
 [sub_resource type="AudioStreamFaust" id="AudioStreamFaust_l4713"]
-volume = -22.8
+frequency = 50.0
+volume = -14.4
 
 [node name="Scene" type="Node3D" unique_id=55228684]
 
@@ -111,5 +112,6 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [connection signal="midi_received" from="MidiHandlerFaust" to="MidiHandlerFaust" method="_on_midi_received"]
+[connection signal="value_changed" from="Control/MarginContainer/MarginContainer/BoxContainer/Frequency/HSlider" to="MidiHandlerFaust" method="_on_frequency_slider_value_changed"]
 [connection signal="value_changed" from="Control/MarginContainer/MarginContainer/BoxContainer/Volume/HSlider" to="MidiHandlerFaust" method="_on_volume_slider_changed"]
 [connection signal="toggled" from="Control/MarginContainer/MarginContainer/BoxContainer/Playing/CheckButton" to="MidiHandlerFaust" method="_on_check_button_toggled"]
