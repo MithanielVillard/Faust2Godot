@@ -53,8 +53,13 @@ inline V& DynLibrary::GetVariable(std::string_view name)
     char* error = dlerror();
     if (error != nullptr && !object) {
       std::cerr << error << std::endl;
-      throw std::invalid_argument("Symbole name not found");
+      throw std::invalid_argument("Symbol name not found");
     }
 
     return *reinterpret_cast<V*>(object);
+}
+
+inline DynLibrary::~DynLibrary()
+{
+    if (m_libHandle) dlclose(m_libHandle);
 }

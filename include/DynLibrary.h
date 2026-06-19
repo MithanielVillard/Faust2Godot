@@ -70,11 +70,6 @@ inline DynLibrary::DynLibrary(std::filesystem::path const& libPath, auto const& 
         std::cerr << "Error while loading dynamic library : " << result.value() << std::endl;
 }
 
-inline DynLibrary::~DynLibrary()
-{
-    if (m_libHandle) dlclose(m_libHandle);
-}
-
 inline std::optional<std::string> DynLibrary::Open(std::filesystem::path const& libPath)
 {
     return Open(libPath, DefaultDecorator);
@@ -127,7 +122,7 @@ constexpr DynLibrary::DefaultDeco_t DynLibrary::DefaultDecorator {
 };
 
 #ifdef OS_WIN
-//TODO
+#include "windows/DynLibrary.inl"
 #endif
 
 #if defined (OS_MAC) || defined (OS_LINUX)
