@@ -19,4 +19,5 @@ public:
     void Compute(int32 count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs) { m_dspInstance->compute(count, inputs, outputs); }
 private:
     dsp* m_dspInstance;
+    DynLibrary m_dynLibrary {};
 };

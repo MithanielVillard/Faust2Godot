@@ -7,29 +7,17 @@
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
-#include <godot_cpp/variant/utility_functions.hpp>
 
 using namespace godot;
-
-DynLibrary& GetFaustDSP()
-{
-    static DynLibrary dspLib;
-    return dspLib;
-}
 
 void InitializeFaust2GodotModule(ModuleInitializationLevel level)
 {
     if (level == MODULE_INITIALIZATION_LEVEL_SCENE)
     {
-        if (auto const res = GetFaustDSP().Open("bin/faustdsp"))
-        {
-            UtilityFunctions::printerr("Error while loading the lib faust dsp dynamic library : ", res.value().c_str());
-            return;
-        }
-
         GDREGISTER_CLASS(MidiHandlerFaust);
 
-        const auto isGenerator = GetFaustDSP().GetFunction<bool()>("IsGenerator");
+        DynLibrary dynLib("bin/faustdsp");
+        const auto isGenerator = dynLib.GetFunction<bool()>("IsGenerator");
 
         if (isGenerator())
         {

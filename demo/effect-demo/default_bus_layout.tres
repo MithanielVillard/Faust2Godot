@@ -3,6 +3,7 @@
 [sub_resource type="AudioEffectFaust" id="AudioEffectFaust_j3pel"]
 feedback = 0.0
 millisecond = 0.0
+resource_name = "Faust"
 
 [sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_j3pel"]
 resource_name = "Limiter"
