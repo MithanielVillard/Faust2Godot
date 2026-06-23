@@ -2,11 +2,15 @@
 #include "MidiHandlerFaust.h"
 #include "AudioEffectFaust.h"
 #include "AudioStreamFaust.h"
+#include "inspector/VSliderEditorProperty.h"
+#include "inspector/InspectorPluginFaust.h"
+#include "inspector/EditorPluginFaust.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/defs.hpp>
 #include <godot_cpp/godot.hpp>
+
 
 using namespace godot;
 
@@ -31,14 +35,14 @@ void InitializeFaust2GodotModule(ModuleInitializationLevel level)
         }
     }
 
-    if (level == godot::MODULE_INITIALIZATION_LEVEL_EDITOR)
+    if (level == MODULE_INITIALIZATION_LEVEL_EDITOR)
     {
-        // GDREGISTER_CLASS(ExtButton)
-        // GDREGISTER_CLASS(RandomIntEditor);
-        // GDREGISTER_CLASS(InspectorPlugin);
-        // GDREGISTER_CLASS(Plugin);
+        GDREGISTER_CLASS(VSliderEditorProperty);
 
-        // EditorPlugins::add_by_type<Plugin>();
+        GDREGISTER_CLASS(InspectorPluginFaust);
+        GDREGISTER_CLASS(EditorPluginFaust);
+
+        EditorPlugins::add_by_type<EditorPluginFaust>();
     }
 }
 

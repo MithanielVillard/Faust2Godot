@@ -67,6 +67,9 @@ target_sources(${LIBNAME}
     PRIVATE
     src/FaustGUIGlue.cpp
     src/faust2godot.cpp
+    src/inspector/EditorPluginFaust.cpp
+    src/inspector/InspectorPluginFaust.cpp
+    src/inspector/VSliderEditorProperty.cpp
     src/AudioEffectFaust.cpp
     src/AudioStreamFaust.cpp
     src/MidiHandlerFaust.cpp

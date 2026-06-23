@@ -37,7 +37,7 @@ void GodotMapUI::addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLO
         Variant::FLOAT,
         striped_label,
         PROPERTY_HINT_RANGE,
-        std::format("{},{},{}", min, max, step).c_str())
+        std::format("{},{},{},vertical", min, max, step).c_str())
     );
     m_pPropertyHandler.SetProperty(striped_label, init);  //Set initial value of parameter
 }
