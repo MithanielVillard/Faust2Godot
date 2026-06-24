@@ -1,5 +1,6 @@
 #include "inspector/InspectorPluginFaust.h"
 
+#include "inspector/ButtonEditorProperty.h"
 #include "inspector/VSliderEditorProperty.h"
 
 using namespace godot;
@@ -25,6 +26,14 @@ bool InspectorPluginFaust::_parse_property(Object *p_object,
         arguments.has("vertical"))
     {
         VSliderEditorProperty* editor = memnew(VSliderEditorProperty);
+        editor->setup(arguments[0].to_float(), arguments[1].to_float(), arguments[2].to_float());
+        add_property_editor(p_name, editor);
+        return true;
+    }
+
+    if (p_hint_type == PropertyHint::PROPERTY_HINT_TOOL_BUTTON)
+    {
+        ButtonEditorProperty* editor = memnew(ButtonEditorProperty);
         editor->setup();
         add_property_editor(p_name, editor);
         return true;

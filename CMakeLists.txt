@@ -70,6 +70,7 @@ target_sources(${LIBNAME}
     src/inspector/EditorPluginFaust.cpp
     src/inspector/InspectorPluginFaust.cpp
     src/inspector/VSliderEditorProperty.cpp
+    src/inspector/ButtonEditorProperty.cpp
     src/AudioEffectFaust.cpp
     src/AudioStreamFaust.cpp
     src/MidiHandlerFaust.cpp

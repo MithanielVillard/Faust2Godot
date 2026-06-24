@@ -1,7 +1,6 @@
 #pragma once
 
 #include <godot_cpp/classes/editor_property.hpp>
-#include <godot_cpp/classes/v_slider.hpp>
 
 namespace godot
 {
@@ -12,12 +11,14 @@ namespace godot
     GDCLASS(VSliderEditorProperty, EditorProperty)
 
     public:
-        void setup();
+        void setup(float min, float max, float step);
         void _update_property() override;
 
     protected:
         static void _bind_methods();
         void RefreshSliderValue() const;
+
+        void OnValueChange(float value);
 
     private:
         VSlider* m_pPropertyControl { nullptr};
