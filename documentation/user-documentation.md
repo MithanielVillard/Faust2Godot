@@ -51,7 +51,7 @@ that can be attached to as many [Audio Buses](https://docs.godotengine.org/en/st
 To access DSP parameters, just click on the `Faust` effect on the bus, and you should see the parameters on the inspector like a regular godot effect.
 
 ![AudioEffectFaust.png](AudioEffectFaust.png)
-> [!INFO]
+> [!NOTE]
 > You can force a DSP program to be considered as an Effect DSP using the `-as-bus-effect` option when compiling the DSP using 
 > the `faust2godot` script. As being an effect, those DSP programs will only work **when audio is entering the bus**.
 ---
