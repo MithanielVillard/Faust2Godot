@@ -14,7 +14,7 @@ Options:
    -nvoices <num> : produces a polyphonic DSP with <num> voices, ready to be used with MIDI events
    -effect <effect.dsp> : generates a polyphonic DSP connected to a global output effect, ready to be used with MIDI or OSC
    Faust options : any option (e.g. -vec -vs 8...). See the Faust compiler documentation.
-See architecture/unity/README.md for more info.
+See architecture/godot/readme.md for more info.
 ```
 
 > [!WARNING]
