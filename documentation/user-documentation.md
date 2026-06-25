@@ -1,6 +1,6 @@
 ## faust2godot
 
-`faust2godot` is a CLI tool that converts a Faust written DSP script into a ready-to-use Godot project.
+`faust2godot` is a CLI tool that converts a [Faust](https://faust.grame.fr) written DSP script into a ready-to-use Godot project.
 Generated project will only works on the platform where it was compiled from. If you need to open the project again on a different platform
 you **must** run that script again on the new platform. 
 
