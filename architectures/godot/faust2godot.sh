@@ -153,7 +153,7 @@ for f in $FILES; do
     # collect binary file name for FaustWorks
     BINARIES="$BINARIES${f%.dsp};"
 
-	# print sucess message in a h nice box
+  # print success message in a nice box
 	printf "\n"
     msg="# DONE. Open the ${f%.*} directory inside Godot #"
     edge=$(echo "$msg" | sed 's/./#/g')

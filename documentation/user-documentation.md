@@ -5,7 +5,7 @@ Generated project will only works on the platform where it was compiled from. If
 you **must** run that script again on the new platform. 
 
 ```
-Usage: faust2godot [options] [Faust options] <file.dsp>
+Usage: python faust2godot.py [options] [Faust options] <file.dsp>
 Target platform: Linux, MacOSX, Windows
 Require: Godot
 Generates a ready-to-use Godot engine project.
@@ -95,6 +95,10 @@ of how we can leverage this signal to create an interactive instrument using Fau
 
 `faust2godot` use the [CMake](https://cmake.org) project generator.
 Building project can take a while due to having to compile godot-cpp sdk. Multithreaded compilation is recommended (`-j nbrThread`).
+
+`faust2godot` GDExtension works by **dynamically loading** a Faust DSP program compiled by the script. No Godot extension
+are being recompiled when using the script. The `faust2godot.py` script just compiles the DSP to a dynamic library using the 
+Faust Godot architecture file.
 
 Building the GDExtension :
 ```shell

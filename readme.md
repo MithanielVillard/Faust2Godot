@@ -8,8 +8,10 @@ Just follow [Faust](https://faust.grame.fr) installation guide then navigate to 
 
 ### Getting started
 
+You will need `python >= 3.14` to run the `faust2godot` script
+
 ```
-Usage: faust2godot [options] [Faust options] <file.dsp>
+Usage: python faust2godot.py [options] [Faust options] <file.dsp>
 Target platform: Linux, MacOSX, Windows
 Require: Godot
 Generates a ready-to-use Godot engine project.
@@ -24,9 +26,9 @@ See architecture/godot/readme.md for more info.
 ### Example
 
 ```shell
-faust2godot myfaustdsp.dsp
+python3 faust2godot.py myfaustdsp.dsp
 ```
-The output will be a directory with the **same** name as the inputted dsp file.
+The output will be a directory called `faust2godot/`
 
 ### Usage
 
