@@ -129,11 +129,12 @@ def compile_dsp_files(files: list[str], _compile_flags : str):
                 print(f"{dsp} detected as generator.")
                 _compile_flags += " -DGENERATOR_DSP=1"
 
+            os.remove(dsp+".json")
+
         print(f"Compiling '{dsp}' to GDExtension.")
         compile_to_lib(dsp, _compile_flags.split(" "))
 
         # Remove temporary files
-        os.remove(dsp+".json")
         os.remove(dsp+".cpp")
         if Path(dsp+".h").exists():
             os.remove(dsp+".h")

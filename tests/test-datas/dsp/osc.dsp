@@ -1,16 +1,9 @@
-declare filename "untitled.dsp";
-declare name "untitled";
-declare name 		"osc";
-declare version 	"1.0";
-declare author 		"Grame";
-declare license 	"BSD";
-declare copyright 	"(c)GRAME 2009";
-
-//-----------------------------------------------
-// 			Sinusoidal Oscillator
-//-----------------------------------------------
+declare options "[midi:on]";
 
 import("stdfaust.lib");
 
-process = os.osc(440) * 0.1 <: dm.zita_light;
+vol = hslider("volume [unit:dB] [midi:ctrl 15]", -20, -96, 0, 0.1) : ba.db2linear : si.smoo ;
+freq = vslider("frequency[midi:ctrl 14]",200,50,1000,0.01) : si.smoo;
+gate = button("gate");
 
+process = os.sawtooth(freq) * vol * gate <: _, _;
