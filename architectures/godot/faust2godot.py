@@ -176,17 +176,20 @@ if __name__ == '__main__':
     for i in range(len(params)):
         if params[i] == '-fx':
             compile_flags += " -I /usr/local/include/ap_fixed -DFIXED_POINT"
-            options += " param"
+            options += " -fx"
         elif params[i] == '-as-bus-effect':
             force_effect = True
         elif params[i] == '-nvoices':
+            if i+1 > len(params) - 1:
+                print("Please, provide a number of voices !")
+                exit()
             nbr_voices = int(params[i+1])
             print("Compiling dsp as polyphonic")
             print(f"Number of voices : {nbr_voices}")
             compile_flags +=f" -DPOLY -DNVOICES={nbr_voices}"
             i+=1
         elif params[i] == '-effect':
-            if i+1 > len(params):
+            if i+1 > len(params) - 1:
                 print("Please, provide a Faust file to process for global effect !")
                 exit()
             compile_flags += " -DGLOBAL_EFFECT"
