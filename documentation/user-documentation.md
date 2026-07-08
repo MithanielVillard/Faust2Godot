@@ -110,6 +110,19 @@ cmake --build . -j 10
 Building the GDExtension (in release) : 
 ```shell
 mkdir build && cd build
+cmake ..
+cmake --build . -j 10 --config Release
+```
+
+Building the GDExtension (Changing Godot target) :
+
+_Possible values :_
+- template_release
+- template_debug
+- editor
+
+```shell
+mkdir build && cd build
 cmake .. -DGODOTCPP_TARGET=template_release
 cmake --build . -j 10 --config Release
 ```
