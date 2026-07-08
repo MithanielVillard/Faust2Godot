@@ -107,6 +107,13 @@ cmake ..
 cmake --build . -j 10
 ```
 
+Building the GDExtension (in release) : 
+```shell
+mkdir build && cd build
+cmake .. -DGODOTCPP_TARGET=template_release
+cmake --build . -j 10 --config Release
+```
+
 Building the GDExtension (with tests) :
 ```shell
 mkdir build && cd build

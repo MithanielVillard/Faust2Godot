@@ -1,9 +1,8 @@
 #include <filesystem>
 #include <sstream>
-#include <stdexcept>
 #include <type_traits>
 
-std::string_view GetErrorMessage(DWORD dw)
+inline std::string GetErrorMessage(DWORD dw)
 {
     LPVOID lpMsgBuf;
 
@@ -25,6 +24,8 @@ inline std::optional<std::string> DynLibrary::Open(std::filesystem::path const& 
     std::filesystem::path p = libPath;
     p.remove_filename();
 
+    auto d = decorator.template Get<OS::WIN>();
+
     //add decorator to the path
                                         //i.e /document/cpp/test.so
     std::stringstream ss;
@@ -43,7 +44,7 @@ inline std::optional<std::string> DynLibrary::Open(std::filesystem::path const& 
 template <typename Func> requires std::is_function_v<Func>
 inline Func* DynLibrary::GetFunction(std::string_view name)
 {
-    Func* object = static_cast<long*>(GetProcAddress(m_libHandle, name.data()));
+    Func* object = reinterpret_cast<Func*>(GetProcAddress(m_libHandle, name.data()));
 
     if (!object)
     {
@@ -57,7 +58,7 @@ inline Func* DynLibrary::GetFunction(std::string_view name)
 template <typename V> requires (!std::is_function_v<V>)
 inline V& DynLibrary::GetVariable(std::string_view name)
 {
-    V* object = static_cast<long*>(GetProcAddress(m_libHandle, name.data()));
+    V* object = reinterpret_cast<V*>(GetProcAddress(m_libHandle, name.data()));
 
     if (!object)
     {

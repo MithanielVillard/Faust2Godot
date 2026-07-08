@@ -11,8 +11,12 @@ set(CMAKE_CXX_STANDARD 20) #std c++ 20
 set(CMAKE_CXX_STANDARD_REQUIRED ON) #std c++ 20
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+if (WIN32)
+  set(FAUSTPATH "$ENV{ProgramFiles}/faust/include" CACHE STRING "Faust include directory")
+endif ()
 
-option(BUILD_TESTS "Build test programs" OFF)
+
+  option(BUILD_TESTS "Build test programs" OFF)
 
 # Make sure all the dependencies are satisfied
 find_package(Python3 3.4 REQUIRED)
@@ -62,6 +66,10 @@ project(faust2godot
 
 add_library(${LIBNAME} SHARED)
 target_include_directories(${LIBNAME} PUBLIC "include/")
+
+if (WIN32)
+  target_include_directories(${LIBNAME} PUBLIC ${FAUSTPATH})
+endif()
 
 target_sources(${LIBNAME}
     PRIVATE

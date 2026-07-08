@@ -4,9 +4,28 @@ import sys
 import subprocess
 import json
 import shutil
+from typing import Optional
 from pathlib import Path
 
 godot_project_name = "faust2godot/"
+
+
+def get_vs_tool_path() -> Optional[Path]:
+    # identify where is Visual Studio Install folder
+    vs_where_path = os.path.join(os.environ['ProgramFiles(x86)'], 'Microsoft Visual Studio', 'Installer', 'vswhere.exe')
+
+    if not os.path.exists(vs_where_path):
+       return None
+
+    output = subprocess.check_output([vs_where_path, "-utf8", "-prerelease", "-latest", "-property", "installationPath"]).decode("utf-8")
+
+    # identify where dev command prompt is
+    for vs_dir in output.splitlines():
+        devcmd_path = vs_dir + "/VC/Auxiliary/Build/vcvars64.bat"
+        if os.path.exists(devcmd_path):
+            return Path(devcmd_path)
+
+    return None
 
 # get faust arch dsp directory
 def get_arch_path():
@@ -22,9 +41,27 @@ def get_arch_path():
             return Path(path).resolve()
     except Exception as e:
         print("ERROR : Faust directory not found.\n",
-          "Make sure that Faust is installed and the FAUSTARCH environment variable is set.", e)
+          "Make sure that Faust is correctly installed.", e)
         exit()
     return Path()
+
+def get_include_path() -> Path:
+    try:
+        result = subprocess.run(
+            ['faust', '--includedir'],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        path = result.stdout.strip()
+        if os.path.isdir(path):
+            return Path(path).resolve()
+    except Exception as e:
+        print("ERROR : Faust include directory not found.\n",
+              "Make sure that Faust is correctly installed.", e)
+        exit()
+    return Path()
+
 
 def get_platform_decorator() -> tuple[str, str]:
     if platform.system() == "Linux":
@@ -59,33 +96,43 @@ def print_success_message():
 def get_faust_opt_flags() -> str:
     system = platform.system()
     machine = platform.machine()
-
-    gcc_flags = ""
+    output_path = "faust2godot/bin/" + platform_decorator[0] + "faustdsp" + platform_decorator[1]
 
     if system == 'Darwin':
         if machine == 'arm64':
             # Silicon MX
-            gcc_flags = "-std=c++11 -Ofast"
+            compile_flags_ = "-std=c++11 -Ofast"
         else :
-            gcc_flags = "-std=c++11 -Ofast -march=native"
+            compile_flags_ = "-std=c++11 -Ofast -march=native"
 
-        gcc_flags = "-std=c++14 -Ofast"
+        compile_flags_ += " -fPIC -shared -pthread"
+        compile_flags_ += " -o " + output_path
+
+    #MSVC Flags
+    elif system == 'Windows':
+        compile_flags_ = "& cl /EHsc /O2 /LD"
+        compile_flags_ += " -o " + output_path
     else :
-        gcc_flags = "-std=c++11 -Ofast -march=native"
-
-    gcc_flags += " -fPIC -shared -pthread"
+        compile_flags_ = "-std=c++11 -Ofast -march=native"
+        compile_flags_ += " -o " + output_path
 
     if 'CXXFLAGS' in os.environ:
-        gcc_flags += " " + os.environ["CXXFLAGS"]
+        compile_flags_ += " " + os.environ["CXXFLAGS"]
 
     # Set default values for CXX and CC
     if 'CXX' not in os.environ:
-        os.environ['CXX'] = "c++"
+        if system == 'Windows':
+            cmd_path = get_vs_tool_path()
+            if cmd_path :
+                print("Compiling using MSVC Compiler")
+                os.environ['CXX'] = str(cmd_path)
+        else :
+            os.environ['CXX'] = "c++"
 
     if 'CC' not in os.environ:
         os.environ['CC'] = "cc"
 
-    return gcc_flags
+    return compile_flags_
 
 def compile_dsp(dsp_file: str, flags : list[str], ):
     try:
@@ -102,13 +149,11 @@ def compile_to_lib(dsp_file: str, flags : list[str]):
     cxx = os.environ["CXX"]
     try:
         subprocess.run(
-            [cxx] + flags + [dsp_file + ".cpp"] +
-            # TODO Add support for multiples dsp files in one single Godot project
-            # ["-o", "faust2godot/bin/"+platform_decorator[0]+dsp_file.removesuffix('.dsp')+platform_decorator[1]],
-            ["-o", "faust2godot/bin/"+platform_decorator[0]+"faustdsp"+platform_decorator[1]],
-            capture_output=True,
+            [cxx] + flags + [dsp_file + ".cpp"],
+            # capture_output=True,
             text=True,
-            check=True
+            check=True,
+            shell=True
         )
     except subprocess.CalledProcessError as e:
         handle_error(e.stderr, dsp_file)
@@ -122,8 +167,9 @@ def compile_dsp_files(files: list[str], _compile_flags : str):
             print(f"Compiling '{dsp}' to JSON.")
             compile_dsp(dsp, ["-json", "-o", dsp + ".json"])
 
-            with open(f'{dsp}.json') as f:
-                d = json.load(f)
+            with open(f'{dsp}.json', "r", encoding="utf-8") as f:
+                as_string = f.read().replace('\\', '//')
+                d = json.loads(as_string)
 
             if d['inputs'] <= 0:
                 print(f"{dsp} detected as generator.")
@@ -136,11 +182,15 @@ def compile_dsp_files(files: list[str], _compile_flags : str):
 
         # Remove temporary files
         os.remove(dsp+".cpp")
-        if Path(dsp+".h").exists():
+        if os.path.exists(dsp+".h"):
             os.remove(dsp+".h")
+
+        if os.path.exists(dsp+".obj"):
+            os.remove(dsp+".obj")
 
         # collect binary file name for FaustWorks
         binaries.append(dsp)
+
 
 def handle_error(error : Exception, failed_file : str):
     print("ERROR : failed to compile DSP : '" + failed_file + "'")
@@ -176,7 +226,8 @@ if __name__ == '__main__':
 
     for i in range(len(params)):
         if params[i] == '-fx':
-            compile_flags += " -I /usr/local/include/ap_fixed -DFIXED_POINT"
+            include_path = get_include_path()
+            compile_flags += " -I " + str(include_path) +"/ap_fixed -DFIXED_POINT"
             options += " -fx"
         elif params[i] == '-as-bus-effect':
             force_effect = True
@@ -200,6 +251,10 @@ if __name__ == '__main__':
             options.append(params[i])
         elif len(params[i]) > 4 and params[i].endswith('.dsp'):
             dsp_files.append(params[i])
+
+    if len(dsp_files) == 0:
+        print("Please, provide a Faust file to process !")
+        exit()
 
     # Copy godot project template from arch directory
     shutil.copytree(arch_path.joinpath("godot/template"), godot_project_name, dirs_exist_ok=True)

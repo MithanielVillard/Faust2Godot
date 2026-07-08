@@ -8,7 +8,7 @@ Just follow [Faust](https://faust.grame.fr) installation guide then navigate to 
 
 ### Getting started
 
-You will need `python >= 3.14` to run the `faust2godot` script
+You will need `python >= 3.14` to run the `faust2godot` script and a **C++ Compiler** with support for `C++ >= 14` (MSVC with Visual Studio, GCC ...)
 
 ```
 Usage: python faust2godot.py [options] [Faust options] <file.dsp>

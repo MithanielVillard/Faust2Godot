@@ -1,7 +1,10 @@
 .cache/
 .idea/
 .zed/
+
+bin/
 cmake-build/
+cmake-build-release/
 project/.godot
 
 compile_commands.json

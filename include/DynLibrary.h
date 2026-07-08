@@ -1,7 +1,6 @@
 #pragma once
 #include "defines.h"
 
-#include <cstddef>
 #include <filesystem>
 #include <optional>
 #include <string_view>
@@ -10,7 +9,7 @@
 #include <iostream>
 
 #ifdef OS_WIN
-#include <windows.h>
+#include <Windows.h>
 using LibHandle = HINSTANCE;
 #endif
 
@@ -115,7 +114,7 @@ private:
     std::tuple<Entries...> decorations;
 };
 
-constexpr DynLibrary::DefaultDeco_t DynLibrary::DefaultDecorator {
+inline constexpr DynLibrary::DefaultDeco_t DynLibrary::DefaultDecorator {
   Entry<OS::WIN>   {"", ".dll"},
   Entry<OS::MAC>   {"lib", ".dylib"},
   Entry<OS::LINUX> {"lib", ".so"}
