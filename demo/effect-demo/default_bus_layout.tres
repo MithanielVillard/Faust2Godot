@@ -1,8 +1,8 @@
 [gd_resource type="AudioBusLayout" format=3 uid="uid://ddwd5ffbxbfud"]
 
 [sub_resource type="AudioEffectFaust" id="AudioEffectFaust_j3pel"]
-feedback = 14.0
-millisecond = 387.0
+feedback = 28.9
+millisecond = 605.2
 resource_name = "Faust"
 
 [sub_resource type="AudioEffectLimiter" id="AudioEffectLimiter_j3pel"]

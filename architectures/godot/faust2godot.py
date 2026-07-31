@@ -104,10 +104,6 @@ def get_faust_opt_flags() -> str:
             compile_flags_ = "-std=c++11 -Ofast"
         else :
             compile_flags_ = "-std=c++11 -Ofast -march=native"
-
-        compile_flags_ += " -fPIC -shared -pthread"
-        compile_flags_ += " -o " + output_path
-
     #MSVC Flags
     elif system == 'Windows':
         compile_flags_ = "& cl /EHsc /O2 /LD"
@@ -115,6 +111,9 @@ def get_faust_opt_flags() -> str:
     else :
         compile_flags_ = "-std=c++11 -Ofast -march=native"
         compile_flags_ += " -o " + output_path
+
+    compile_flags_ += " -fPIC -shared -pthread"
+    compile_flags_ += " -o " + output_path
 
     if 'CXXFLAGS' in os.environ:
         compile_flags_ += " " + os.environ["CXXFLAGS"]
@@ -149,11 +148,10 @@ def compile_to_lib(dsp_file: str, flags : list[str]):
     cxx = os.environ["CXX"]
     try:
         subprocess.run(
-            [cxx] + flags + [dsp_file + ".cpp"],
+            [cxx] + [dsp_file + ".cpp"] + flags,
             # capture_output=True,
             text=True,
-            check=True,
-            shell=True
+            check=True
         )
     except subprocess.CalledProcessError as e:
         handle_error(e.stderr, dsp_file)
@@ -236,8 +234,8 @@ if __name__ == '__main__':
                 print("Please, provide a number of voices !")
                 exit()
             nbr_voices = int(params[i+1])
-            print("Compiling dsp as polyphonic")
-            print(f"Number of voices : {nbr_voices}")
+            print("Compiling dsp as polyphonic.")
+            print(f"Number of voices : {nbr_voices}.")
             compile_flags +=f" -DPOLY -DNVOICES={nbr_voices}"
             i+=1
         elif params[i] == '-effect':
