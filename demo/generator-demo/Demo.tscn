@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://we805sdb8t1t" path="res://Demo.gd" id="1_l4713"]
 
-[sub_resource type="AudioStreamFaust" id="AudioStreamFaust_l4713"]
-frequency = 50.0
-volume = -14.4
+[sub_resource type="AudioStreamFaust" id="AudioStreamFaust_56a5v"]
 
 [node name="Scene" type="Node3D" unique_id=55228684]
 
@@ -13,7 +11,7 @@ current = true
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=1993172026]
 transform = Transform3D(0.9999953, -0.0030717745, 0, 0.0030717745, 0.9999953, 0, 0, 0, 1, 0.29321337, 0, 0)
-stream = SubResource("AudioStreamFaust_l4713")
+stream = SubResource("AudioStreamFaust_56a5v")
 
 [node name="MidiHandlerFaust" type="MidiHandlerFaust" parent="." unique_id=1855728402 node_paths=PackedStringArray("frequency_slider", "frequency_label", "volume_slider", "volume_label", "audio_player")]
 script = ExtResource("1_l4713")
